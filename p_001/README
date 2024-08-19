@@ -1,0 +1,77 @@
+# P_001: BenHub Restaurant Appointment System
+
+## Description
+
+BenHub is a restaurant appointment system designed to streamline reservation bookings for customers. Users can book appointments for their preferred date and time, choose the reservation floor and table, and specify the number of guests. The system does not require user login for making reservations but includes an admin panel with login functionality for managing reservations.
+
+**Features:**
+- **User Interface:** Built with HTML, CSS, and Bootstrap v5.3 for a responsive, minimalist, and interactive design.
+- **Backend:** Powered by PHP for handling reservation logic and data management.
+- **Validation and Interaction:** JavaScript is used for date validation.
+- **Development Environment:** XAMPP and Visual Studio Code for PHP development.
+- **Database Management:** HeidiSQL for database management and administration.
+
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Project Structure](#project-structure)
+4. [Author](#author)
+5. [Acknowledgements](#acknowledgements)
+
+## Installation
+
+To set up the BenHub system on your local machine, follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/xtianvelasquez/p_001.git
+   ```
+
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd p_001
+   ```
+
+3. **Set Up XAMPP:**
+   - Ensure that XAMPP is installed and running on your local machine.
+   - Copy the project files into the `htdocs` directory of your XAMPP installation.
+
+4. **Import the Database:**
+   - Open HeidiSQL and create a new database for the project.
+   - Import the `.sql` file included in the project directory to set up the database schema.
+
+5. **Configure the Database Connection:**
+   - Update the database connection settings in the `config.php` file to match your local database credentials.
+
+6. **Start XAMPP:**
+   - Ensure Apache and MySQL services are running in XAMPP.
+
+7. **Access the Application:**
+   - Open a web browser and navigate to `http://localhost/index.php` to view the application.
+
+## Usage
+
+- **Index Page:** Features a dashboard with the brand name, about us section, contact section, navigations for reservation and  terms and conditions.
+- **Reservation Form:** Access the form from the reservation button in the dashboard. Fill out the form with required details, including date, time, reservation floor and table, number of guests, etc.
+- **Admin Panel:** Accessible via login credentials. Admins can view and manage all reservations, including deletion.
+
+## Project Structure
+
+- **`/bootstrap`**: Downloaded Bootstrap v5.3 files.
+- **`/extras`**: Contains navigations, header, copyright.
+- **`/images`**: Includes images used in the project (e.g., restaurant logo, image).
+- **`/sql`**: Contains the `.sql` file for database setup.
+
+## Author
+
+- [@xtianvelasquez](https://github.com/xtianvelasquez)
+
+## Acknowledgements
+
+- **Bootstrap v5.3**: For styling and responsive design.
+- **PHP**: For backend development.
+- **JavaScript**: For client-side validation and interactivity.
+- **XAMPP**: For local server setup.
+- **HeidiSQL**: For database management.
+- **Visual Studio Code**: For development.
