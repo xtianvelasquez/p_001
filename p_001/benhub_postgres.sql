@@ -6,7 +6,7 @@ CREATE TABLE admin_info (
     ad_name VARCHAR(100)
 );
 
-INSERT INTO admin_info (ad_username, ad_password, ad_name) VALUES ('admin', 'adminpassword', 'admin');
+INSERT INTO admin_info (ad_username, ad_password, ad_name) VALUES ('admin', '$2y$12$iralFISllAu.uyBT.5Q7re3TSlNKL5CGEhOYbhHinskCdJZiQj7R6', 'Administrator');
 
 CREATE TABLE reservation_info (
     reservation_id SERIAL PRIMARY KEY,

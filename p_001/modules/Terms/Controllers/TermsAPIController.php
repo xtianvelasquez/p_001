@@ -10,7 +10,20 @@ class TermsAPIController {
         $this->model = new TermsModel();
     }
 
+    private function requireAdmin() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode(["status" => "error", "message" => "Unauthorized"]);
+            exit;
+        }
+    }
+
     public function index() {
+        header('Content-Type: application/json');
         try {
             $terms = $this->model->getAllTerms();
             echo json_encode(["status" => "success", "data" => $terms]);
@@ -21,6 +34,8 @@ class TermsAPIController {
     }
 
     public function create() {
+        $this->requireAdmin();
+        header('Content-Type: application/json');
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
         if (!$data) {
@@ -28,6 +43,9 @@ class TermsAPIController {
             echo json_encode(["status" => "error", "message" => "Invalid payload"]);
             return;
         }
+
+        $data['tcTitle'] = htmlspecialchars($data['tcTitle'] ?? '');
+        $data['tcDescription'] = htmlspecialchars($data['tcDescription'] ?? '');
         try {
             $this->model->createTerm($data['tcNum'], $data['tcTitle'], $data['tcDescription']);
             http_response_code(201);
@@ -39,6 +57,8 @@ class TermsAPIController {
     }
 
     public function delete($num) {
+        $this->requireAdmin();
+        header('Content-Type: application/json');
         try {
             $this->model->deleteTerm($num);
             echo json_encode(["status" => "success", "message" => "Term deleted"]);

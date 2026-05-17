@@ -12,11 +12,14 @@ class AuthModel {
     }
 
     public function login($username, $password) {
-        $stmt = $this->db->prepare("SELECT * FROM admin_info WHERE ad_username = :user AND ad_password = :pass");
+        $stmt = $this->db->prepare("SELECT * FROM admin_info WHERE ad_username = :user");
         $stmt->execute([
-            ':user' => $username,
-            ':pass' => $password
+            ':user' => $username
         ]);
-        return $stmt->fetch();
+        $user = $stmt->fetch();
+        if ($user && password_verify($password, $user['ad_password'])) {
+            return $user;
+        }
+        return false;
     }
 }

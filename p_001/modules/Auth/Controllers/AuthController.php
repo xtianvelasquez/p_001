@@ -14,6 +14,7 @@ class AuthController {
     }
 
     public function login() {
+        header('Content-Type: application/json');
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
@@ -38,6 +39,7 @@ class AuthController {
     }
 
     public function logout() {
+        header('Content-Type: application/json');
         session_destroy();
         http_response_code(200);
         echo json_encode(["status" => "success", "message" => "Logged out successfully"]);
