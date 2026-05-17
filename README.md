@@ -5,11 +5,10 @@
 BenHub is a restaurant appointment system designed to streamline reservation bookings for customers. Users can book appointments for their preferred date and time, choose the reservation floor and table, and specify the number of guests. The system does not require user login for making reservations but includes an admin panel with login functionality for managing reservations.
 
 **Features:**
-- **User Interface:** Built with HTML, CSS, and Bootstrap v5.3 for a responsive, minimalist, and interactive design.
-- **Backend:** Powered by PHP for handling reservation logic and data management.
-- **Validation and Interaction:** JavaScript is used for date validation.
-- **Development Environment:** XAMPP and Visual Studio Code for PHP development.
-- **Database Management:** HeidiSQL for database management and administration.
+- **Architecture:** Hybrid structure combining Modular Programming, MVC (Model-View-Controller), and RESTful APIs.
+- **User Interface:** Built with HTML, CSS, and Bootstrap v5.3, utilizing JavaScript Fetch API for asynchronous interactions.
+- **Backend:** Powered by PHP acting as an API server and routing traffic via a Front Controller.
+- **Database Management:** PostgreSQL for robust data management and administration.
 
 ## Table of Contents
 
@@ -33,22 +32,24 @@ To set up the BenHub system on your local machine, follow these steps:
    cd p_001
    ```
 
-3. **Set Up XAMPP:**
-   - Ensure that XAMPP is installed and running on your local machine.
-   - Copy the project files into the `htdocs` directory of your XAMPP installation.
+3. **Set Up PostgreSQL:**
+   - Ensure PostgreSQL is installed and running.
+   - Create a database named `benhub`.
+   - Import the `benhub_postgres.sql` file to set up the schema.
 
-4. **Import the Database:**
-   - Open HeidiSQL and create a new database for the project.
-   - Import the `.sql` file included in the project directory to set up the database schema.
+4. **Configure the Database Connection:**
+   - Copy the `config/database.php.example` file and rename it to `config/database.php`.
+   - Update the `password` field in `config/database.php` with your local PostgreSQL credentials.
 
-5. **Configure the Database Connection:**
-   - Update the database connection settings in the `config.php` file to match your local database credentials.
+5. **Run the Application:**
+   - Use PHP's built-in server to serve the application, pointing the document root to the `public` directory:
+   ```bash
+   cd public
+   php -S localhost:8000
+   ```
+   - Access the application at `http://localhost:8000`.
 
-6. **Start XAMPP:**
-   - Ensure Apache and MySQL services are running in XAMPP.
 
-7. **Access the Application:**
-   - Open a web browser and navigate to `http://localhost/index.php` to view the application.
 
 ## Usage
 

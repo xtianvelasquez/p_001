@@ -1,0 +1,8 @@
+<?php
+return [
+    'host' => 'localhost',
+    'port' => '5433', // Default is 5432
+    'dbname' => 'benhub',
+    'user' => 'postgres',
+    'password' => '' // Update this with your local PostgreSQL password
+];

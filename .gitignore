@@ -1,0 +1,20 @@
+# Environment configurations
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sensitive files
+p_001/config/database.php
+p_001/migrate.php
+
+# Composer dependencies (if any added later)
+vendor/
