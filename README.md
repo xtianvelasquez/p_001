@@ -37,18 +37,17 @@ To set up the BenHub system on your local machine, follow these steps:
 3. **Set Up PostgreSQL:**
    - Ensure PostgreSQL is installed and running.
    - Create a database named `benhub`.
-   - Import the `benhub_postgres.sql` file to set up the schema.
-   - For an existing database, run `migrations/2026_06_05_top_tier_reservations.sql` to add the upgraded reservation fields and table inventory.
+   - Import the `benhub_postgres.sql` file to set up the database schema, tables, and seed data.
 
 4. **Configure the Database Connection:**
    - Copy the `config/database.php.example` file and rename it to `config/database.php`.
    - Update the `password` field in `config/database.php` with your local PostgreSQL credentials.
 
 5. **Run the Application:**
-   - Use PHP's built-in server to serve the application, pointing the document root to the `public` directory:
+   - Use PHP's built-in server to serve the application, pointing the document root to the `public` directory and specifying `index.php` as the router script (required for clean URL routing):
    ```bash
    cd public
-   php -S localhost:8000
+   php -S localhost:8000 index.php
    ```
    - Access the application at `http://localhost:8000`.
 
