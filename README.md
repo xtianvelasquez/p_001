@@ -9,6 +9,8 @@ BenHub is a restaurant appointment system designed to streamline reservation boo
 - **User Interface:** Built with HTML, CSS, and Bootstrap v5.3, utilizing JavaScript Fetch API for asynchronous interactions.
 - **Backend:** Powered by PHP acting as an API server and routing traffic via a Front Controller.
 - **Database Management:** PostgreSQL for robust data management and administration.
+- **Reservation Workflow:** Real-time table availability, confirmation codes, guest occasions, special requests, and status-based reservation management.
+- **Admin Dashboard:** Search, filters, booking metrics, reservation status updates, and delete actions.
 
 ## Table of Contents
 
@@ -36,6 +38,7 @@ To set up the BenHub system on your local machine, follow these steps:
    - Ensure PostgreSQL is installed and running.
    - Create a database named `benhub`.
    - Import the `benhub_postgres.sql` file to set up the schema.
+   - For an existing database, run `migrations/2026_06_05_top_tier_reservations.sql` to add the upgraded reservation fields and table inventory.
 
 4. **Configure the Database Connection:**
    - Copy the `config/database.php.example` file and rename it to `config/database.php`.

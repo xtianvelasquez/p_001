@@ -44,8 +44,8 @@ class TermsAPIController {
             return;
         }
 
-        $data['tcTitle'] = htmlspecialchars($data['tcTitle'] ?? '');
-        $data['tcDescription'] = htmlspecialchars($data['tcDescription'] ?? '');
+        $data['tcTitle'] = trim((string) ($data['tcTitle'] ?? ''));
+        $data['tcDescription'] = trim((string) ($data['tcDescription'] ?? ''));
         try {
             $this->model->createTerm($data['tcNum'], $data['tcTitle'], $data['tcDescription']);
             http_response_code(201);

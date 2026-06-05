@@ -35,6 +35,8 @@ $router->add('GET', '/terms', function() {
 // --- API Routes ---
 $router->add('POST', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'create']);
 $router->add('GET', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'index']);
+$router->add('GET', '/api/reservations/availability', ['Modules\Reservation\Controllers\ReservationAPIController', 'availability']);
+$router->add('PUT', '/api/reservations/{id}', ['Modules\Reservation\Controllers\ReservationAPIController', 'update']);
 $router->add('DELETE', '/api/reservations/{id}', ['Modules\Reservation\Controllers\ReservationAPIController', 'delete']);
 $router->add('POST', '/api/auth/login', ['Modules\Auth\Controllers\AuthController', 'login']);
 $router->add('POST', '/api/auth/logout', ['Modules\Auth\Controllers\AuthController', 'logout']);

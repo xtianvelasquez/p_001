@@ -20,6 +20,16 @@
 </div>
 
 <script>
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[char]));
+  }
+
   // Load terms when modal is shown or just asynchronously
   document.addEventListener("DOMContentLoaded", function() {
     fetch('/api/terms')
@@ -28,10 +38,13 @@
         if (res.status === 'success') {
           let html = '';
           res.data.forEach(term => {
+            const num = Number(term.tc_num);
+            const title = escapeHtml(term.tc_title);
+            const desc = escapeHtml(term.tc_description);
             html += `
               <div class="mb-4">
-                <h6 class="fw-bold">${term.tc_num}. ${term.tc_title}</h6>
-                <p class="text-secondary">${term.tc_description}</p>
+                <h6 class="fw-bold">${num}. ${title}</h6>
+                <p class="text-secondary">${desc}</p>
               </div>`;
           });
           document.getElementById('modal_tc_descriptions').innerHTML = html;

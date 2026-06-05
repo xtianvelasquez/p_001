@@ -14,7 +14,13 @@ CREATE TABLE reservation_info (
     reservation_time VARCHAR(10),
     num_guest INTEGER,
     reservation_floor VARCHAR(10),
-    reservation_table VARCHAR(10)
+    reservation_table VARCHAR(10),
+    status VARCHAR(20) DEFAULT 'confirmed',
+    occasion VARCHAR(100),
+    special_request VARCHAR(1000),
+    confirmation_code VARCHAR(20) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE customer_info (
@@ -25,6 +31,32 @@ CREATE TABLE customer_info (
     contact_num VARCHAR(15),
     email_add VARCHAR(100)
 );
+
+CREATE TABLE restaurant_tables (
+    table_id SERIAL PRIMARY KEY,
+    table_name VARCHAR(20) NOT NULL,
+    floor_name VARCHAR(20) NOT NULL,
+    capacity INTEGER NOT NULL,
+    area VARCHAR(50) DEFAULT 'Dining Room',
+    is_active BOOLEAN DEFAULT TRUE,
+    UNIQUE (table_name, floor_name)
+);
+
+INSERT INTO restaurant_tables (table_name, floor_name, capacity, area) VALUES
+('Table 1', 'Floor 1', 2, 'Window'),
+('Table 2', 'Floor 1', 2, 'Window'),
+('Table 3', 'Floor 1', 4, 'Main Dining'),
+('Table 4', 'Floor 1', 4, 'Main Dining'),
+('Table 5', 'Floor 1', 6, 'Main Dining'),
+('Table 6', 'Floor 2', 4, 'Lounge'),
+('Table 7', 'Floor 2', 4, 'Lounge'),
+('Table 8', 'Floor 2', 6, 'Lounge'),
+('Table 9', 'Floor 3', 8, 'Private Room'),
+('Table 10', 'Floor 3', 12, 'Private Room');
+
+CREATE UNIQUE INDEX unique_active_table_slot
+ON reservation_info (reservation_date, reservation_time, reservation_floor, reservation_table)
+WHERE status IN ('pending', 'confirmed', 'seated');
 
 CREATE TABLE terms_conditions (
     tc_num INTEGER,

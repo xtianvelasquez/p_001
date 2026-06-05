@@ -35,6 +35,16 @@
 
   <script src="/assets/bootstrap/js/bootstrap.min.js?v=5.3"></script>
   <script>
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
     fetch('/api/terms')
       .then(response => response.json())
       .then(res => {
@@ -43,11 +53,14 @@
           let descriptionsHtml = '';
           
           res.data.forEach(term => {
-            titlesHtml += `<h6 class="fw-bold mb-3">${term.tc_num}. ${term.tc_title}</h6>`;
+            const num = Number(term.tc_num);
+            const title = escapeHtml(term.tc_title);
+            const desc = escapeHtml(term.tc_description);
+            titlesHtml += `<h6 class="fw-bold mb-3">${num}. ${title}</h6>`;
             descriptionsHtml += `
               <div class="mb-4">
-                <h6 class="fw-bold">${term.tc_num}. ${term.tc_title}</h6>
-                <p class="text-secondary">${term.tc_description}</p>
+                <h6 class="fw-bold">${num}. ${title}</h6>
+                <p class="text-secondary">${desc}</p>
               </div>`;
           });
           
