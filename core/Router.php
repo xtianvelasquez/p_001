@@ -15,8 +15,11 @@ class Router {
     public function dispatch($method, $uri) {
         $uri = parse_url($uri, PHP_URL_PATH);
         // Strip base path if running from a subdirectory (like /p_001/p_001/public)
-        $basePath = '/p_001/p_001/public';
-        if (strpos($uri, $basePath) === 0) {
+        $basePath = '/p_001/public';
+        $oldBasePath = '/p_001/p_001/public';
+        if (strpos($uri, $oldBasePath) === 0) {
+            $uri = substr($uri, strlen($oldBasePath));
+        } elseif (strpos($uri, $basePath) === 0) {
             $uri = substr($uri, strlen($basePath));
         }
         if ($uri === '') {
