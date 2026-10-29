@@ -1,4 +1,13 @@
 <?php
+// When running via PHP built-in server with router script, serve existing static files directly
+if (php_sapi_name() === 'cli-server') {
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $file = __DIR__ . $path;
+    if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) !== 'php') {
+        return false;
+    }
+}
+
 session_start();
 
 // Autoloader for namespaces
@@ -22,6 +31,13 @@ $router->add('GET', '/', function() {
 $router->add('GET', '/reservation', function() {
     require __DIR__ . '/../modules/Frontend/Views/reservation.php';
 });
+$router->add('GET', '/reservation/view', function() {
+    require __DIR__ . '/../modules/Frontend/Views/reservation_view.php';
+});
+$router->add('GET', '/reservation/view/{code}', function($code) {
+    $_GET['code'] = $code;
+    require __DIR__ . '/../modules/Frontend/Views/reservation_view.php';
+});
 $router->add('GET', '/admin', function() {
     require __DIR__ . '/../modules/Admin/Views/admin.php';
 });
@@ -35,6 +51,7 @@ $router->add('GET', '/terms', function() {
 // --- API Routes ---
 $router->add('POST', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'create']);
 $router->add('GET', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'index']);
+$router->add('GET', '/api/reservations/lookup', ['Modules\Reservation\Controllers\ReservationAPIController', 'lookup']);
 $router->add('GET', '/api/reservations/availability', ['Modules\Reservation\Controllers\ReservationAPIController', 'availability']);
 $router->add('PUT', '/api/reservations/{id}', ['Modules\Reservation\Controllers\ReservationAPIController', 'update']);
 $router->add('DELETE', '/api/reservations/{id}', ['Modules\Reservation\Controllers\ReservationAPIController', 'delete']);

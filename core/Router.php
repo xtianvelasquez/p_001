@@ -49,7 +49,7 @@ class Router {
     }
 
     private function match($routePath, $uri, &$params) {
-        $routeRegex = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_]+)', $routePath);
+        $routeRegex = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_\-]+)', $routePath);
         $routeRegex = "@^" . $routeRegex . "$@D";
         
         if (preg_match($routeRegex, $uri, $matches)) {

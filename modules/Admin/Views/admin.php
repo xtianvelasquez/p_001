@@ -113,6 +113,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     </div>
   </main>
 
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-1">Are you sure you want to delete this reservation permanently?</p>
+          <div id="deleteModalTargetDetails" class="small text-secondary"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <?php include __DIR__ . "/../../Frontend/Views/extras/copyright.php"; ?>
 
   <script src="/assets/bootstrap/js/bootstrap.min.js?v=5.3"></script>
@@ -268,10 +288,31 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         .catch(() => showFeedback('danger', 'Could not update reservation status.'));
     }
 
-    function deleteReservation(id) {
-      if (!confirm('Delete this reservation permanently?')) {
+    const deleteModalEl = document.getElementById('deleteConfirmModal');
+    const deleteModal = new bootstrap.Modal(deleteModalEl);
+    let reservationIdToDelete = null;
+
+    function openDeleteModal(id) {
+      reservationIdToDelete = id;
+      const resObj = reservations.find(r => String(r.reservation_id) === String(id));
+      const detailsEl = document.getElementById('deleteModalTargetDetails');
+      if (resObj) {
+        const code = resObj.confirmation_code || `#${resObj.reservation_id}`;
+        const guest = `${resObj.first_name || ''} ${resObj.last_name || ''}`.trim();
+        detailsEl.innerHTML = `Reservation: <strong>${escapeHtml(code)}</strong> (${escapeHtml(guest)})`;
+      } else {
+        detailsEl.textContent = '';
+      }
+      deleteModal.show();
+    }
+
+    function executeDeleteReservation() {
+      if (!reservationIdToDelete) {
         return;
       }
+
+      const id = reservationIdToDelete;
+      deleteModal.hide();
 
       fetch(`/api/reservations/${id}`, { method: 'DELETE' })
         .then(response => response.json())
@@ -283,8 +324,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             showFeedback('danger', 'Error deleting reservation: ' + res.message);
           }
         })
-        .catch(() => showFeedback('danger', 'Could not delete reservation.'));
+        .catch(() => showFeedback('danger', 'Could not delete reservation.'))
+        .finally(() => {
+          reservationIdToDelete = null;
+        });
     }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', executeDeleteReservation);
 
     tbody.addEventListener('change', event => {
       if (event.target.classList.contains('status-select')) {
@@ -295,7 +341,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     tbody.addEventListener('click', event => {
       const deleteButton = event.target.closest('.delete-btn');
       if (deleteButton) {
-        deleteReservation(deleteButton.dataset.id);
+        openDeleteModal(deleteButton.dataset.id);
       }
     });
 

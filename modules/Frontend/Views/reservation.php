@@ -163,6 +163,68 @@
     </div>
   </main>
 
+  <!-- Reservation Confirmed & QR Code Modal -->
+  <div class="modal fade" id="qrConfirmationModal" tabindex="-1" aria-labelledby="qrConfirmationModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-success text-white py-3">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill fs-3 me-2"></i>
+            <div>
+              <h5 class="modal-title fw-bold mb-0" id="qrConfirmationModalLabel">Reservation Confirmed!</h5>
+              <div class="small opacity-75">Your table has been reserved</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="mb-3">
+            <span class="text-secondary small text-uppercase fw-bold">Confirmation Code</span>
+            <div class="fs-3 fw-bold text-dark font-monospace" id="modalConfirmationCode">BH-XXXXXX</div>
+          </div>
+
+          <!-- QR Code Container -->
+          <div class="d-flex flex-column align-items-center justify-content-center p-3 bg-light border rounded mb-3">
+            <div id="reservationQRCode" class="bg-white p-2 border rounded shadow-sm"></div>
+            <div class="small text-secondary mt-2">
+              <i class="bi bi-camera"></i> Scan with phone to view reservation details
+            </div>
+          </div>
+
+          <!-- Summary list -->
+          <div class="text-start bg-light rounded p-3 mb-3 small">
+            <div class="d-flex justify-content-between py-1 border-bottom">
+              <span class="text-secondary">Guest:</span>
+              <strong id="modalGuestName">-</strong>
+            </div>
+            <div class="d-flex justify-content-between py-1 border-bottom">
+              <span class="text-secondary">Schedule:</span>
+              <strong id="modalSchedule">-</strong>
+            </div>
+            <div class="d-flex justify-content-between py-1 border-bottom">
+              <span class="text-secondary">Table & Floor:</span>
+              <strong id="modalTable">-</strong>
+            </div>
+            <div class="d-flex justify-content-between py-1">
+              <span class="text-secondary">Party Size:</span>
+              <strong id="modalGuests">-</strong>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-grid gap-2">
+            <a id="modalViewPassBtn" href="#" target="_blank" class="btn btn-accent">
+              <i class="bi bi-box-arrow-up-right me-1"></i> Open Digital Booking Pass
+            </a>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <?php
   if(file_exists(__DIR__ . "/../../Terms/Views/tc_modal.php")) {
       include __DIR__ . "/../../Terms/Views/tc_modal.php";
@@ -173,6 +235,7 @@
   ?>
 
   <script src="/assets/bootstrap/js/bootstrap.min.js?v=5.3"></script>
+  <script src="/assets/js/qrcode.min.js"></script>
   <script>
     const reservationForm = document.getElementById('reservationForm');
     const tableOptions = document.getElementById('tableOptions');
@@ -294,7 +357,47 @@
       .then(response => response.json().then(data => ({status: response.status, body: data})))
       .then(res => {
         if (res.status === 201) {
-          showFeedback('success', `<strong>Reservation confirmed.</strong> Your confirmation code is <strong>${res.body.confirmationCode}</strong>.`);
+          const confCode = res.body.confirmationCode;
+          const passUrl = `${window.location.origin}/reservation/view?code=${encodeURIComponent(confCode)}`;
+
+          // Populate modal details
+          document.getElementById('modalConfirmationCode').textContent = confCode;
+          document.getElementById('modalGuestName').textContent = `${data.firstName} ${data.lastName}`;
+          document.getElementById('modalSchedule').textContent = `${data.reserveDate} at ${data.reserveTime}`;
+          document.getElementById('modalTable').textContent = `${data.reserveTable} (${data.reserveFloor})`;
+          document.getElementById('modalGuests').textContent = `${data.numGuest} Guest${Number(data.numGuest) > 1 ? 's' : ''}`;
+          document.getElementById('modalViewPassBtn').href = passUrl;
+
+          // Generate QR code
+          const qrContainer = document.getElementById('reservationQRCode');
+          qrContainer.innerHTML = '';
+          new QRCode(qrContainer, {
+            text: passUrl,
+            width: 160,
+            height: 160,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+
+          // Show QR modal
+          const qrModal = new bootstrap.Modal(document.getElementById('qrConfirmationModal'));
+          qrModal.show();
+
+          // Set feedback alert with direct link to booking pass
+          showFeedback('success', `
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+              <div>
+                <strong>Reservation confirmed!</strong> Code: <strong>${confCode}</strong>
+              </div>
+              <div>
+                <a href="${passUrl}" target="_blank" class="btn btn-sm btn-outline-success">
+                  <i class="bi bi-qr-code"></i> View Booking Pass
+                </a>
+              </div>
+            </div>
+          `);
+
           this.reset();
           tableOptions.innerHTML = '<div class="col-12"><div class="alert alert-light border mb-0">Enter visit details to view available tables.</div></div>';
           reserveDate.min = tomorrow.toISOString().split('T')[0];

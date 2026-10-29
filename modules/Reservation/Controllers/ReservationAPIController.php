@@ -126,7 +126,27 @@ class ReservationAPIController {
             $data['confirmationCode'] = $this->generateConfirmationCode();
             $id = $this->model->createReservation($data);
             http_response_code(201);
-            echo json_encode(["status" => "success", "message" => "Reservation successful!", "id" => $id, "confirmationCode" => $data['confirmationCode']]);
+            echo json_encode([
+                "status" => "success", 
+                "message" => "Reservation successful!", 
+                "id" => $id, 
+                "confirmationCode" => $data['confirmationCode'],
+                "reservation" => [
+                    "id" => $id,
+                    "confirmationCode" => $data['confirmationCode'],
+                    "firstName" => $data['firstName'],
+                    "lastName" => $data['lastName'],
+                    "contactNum" => $data['contactNum'],
+                    "emailAdd" => $data['emailAdd'],
+                    "reserveDate" => $data['reserveDate'],
+                    "reserveTime" => $data['reserveTime'],
+                    "numGuest" => $data['numGuest'],
+                    "reserveFloor" => $data['reserveFloor'],
+                    "reserveTable" => $data['reserveTable'],
+                    "occasion" => $data['occasion'] ?? null,
+                    "specialRequest" => $data['specialRequest'] ?? null
+                ]
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(["status" => "error", "message" => "We could not complete the reservation. Please try another time slot."]);
@@ -198,6 +218,30 @@ class ReservationAPIController {
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(["status" => "error", "message" => "Could not update reservation."]);
+        }
+    }
+
+    public function lookup() {
+        header('Content-Type: application/json');
+        $code = $_GET['code'] ?? '';
+        if (!$code) {
+            http_response_code(400);
+            echo json_encode(["status" => "error", "message" => "Confirmation code is required."]);
+            return;
+        }
+
+        try {
+            $reservation = $this->model->getReservationByCode($code);
+            if (!$reservation) {
+                http_response_code(404);
+                echo json_encode(["status" => "error", "message" => "Reservation not found."]);
+                return;
+            }
+
+            echo json_encode(["status" => "success", "data" => $reservation]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(["status" => "error", "message" => "Could not retrieve reservation details."]);
         }
     }
 

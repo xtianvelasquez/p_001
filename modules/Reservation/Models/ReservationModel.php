@@ -67,6 +67,20 @@ class ReservationModel {
         return $stmt->fetchAll();
     }
 
+    public function getReservationByCode($code) {
+        $stmt = $this->db->prepare("SELECT r.*, c.first_name, c.last_name, c.age, c.contact_num, c.email_add 
+            FROM reservation_info r 
+            JOIN customer_info c ON r.reservation_id = c.customer_id 
+            WHERE UPPER(r.confirmation_code) = UPPER(:code) 
+               OR CAST(r.reservation_id AS TEXT) = :id
+            LIMIT 1");
+        $stmt->execute([
+            ':code' => trim((string)$code),
+            ':id' => trim((string)$code)
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
     public function getAvailableTables($date, $time, $guests) {
         $stmt = $this->db->prepare("SELECT t.table_name, t.floor_name, t.capacity, t.area
             FROM restaurant_tables t
