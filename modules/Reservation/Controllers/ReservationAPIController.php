@@ -4,14 +4,14 @@ namespace Modules\Reservation\Controllers;
 use Modules\Reservation\Models\ReservationModel;
 
 class ReservationAPIController {
-    private $model;
-    private $validStatuses = ['pending', 'confirmed', 'seated', 'completed', 'cancelled', 'no_show'];
+    private ReservationModel $model;
+    private array $validStatuses = ['pending', 'confirmed', 'seated', 'completed', 'cancelled', 'no_show'];
 
     public function __construct() {
         $this->model = new ReservationModel();
     }
 
-    private function requireAdmin() {
+    private function requireAdmin(): void {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -23,12 +23,12 @@ class ReservationAPIController {
         }
     }
 
-    private function cleanString($value, $maxLength = 255) {
+    private function cleanString(mixed $value, int $maxLength = 255): string {
         $value = trim((string) ($value ?? ''));
         return substr($value, 0, $maxLength);
     }
 
-    private function validateReservation($data) {
+    private function validateReservation(array $data): ?string {
         $required = ['firstName', 'lastName', 'age', 'contactNum', 'emailAdd', 'reserveDate', 'reserveTime', 'numGuest', 'reserveFloor', 'reserveTable'];
         foreach ($required as $field) {
             if (!isset($data[$field]) || trim((string) $data[$field]) === '') {
@@ -187,12 +187,12 @@ class ReservationAPIController {
         }
     }
 
-    public function update($id) {
+    public function update(int|string $id): void {
         $this->requireAdmin();
         header('Content-Type: application/json');
 
-        $id = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        if ($id === false) {
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($validatedId === false) {
             http_response_code(400);
             echo json_encode(["status" => "error", "message" => "Invalid reservation ID."]);
             return;
@@ -209,7 +209,7 @@ class ReservationAPIController {
         }
 
         try {
-            if ($this->model->updateStatus($id, $status)) {
+            if ($this->model->updateStatus($validatedId, $status)) {
                 echo json_encode(["status" => "success", "message" => "Reservation updated."]);
             } else {
                 http_response_code(404);
@@ -221,7 +221,7 @@ class ReservationAPIController {
         }
     }
 
-    public function lookup() {
+    public function lookup(): void {
         header('Content-Type: application/json');
         $code = $_GET['code'] ?? '';
         if (!$code) {
@@ -245,18 +245,18 @@ class ReservationAPIController {
         }
     }
 
-    public function delete($id) {
+    public function delete(int|string $id): void {
         $this->requireAdmin();
         header('Content-Type: application/json');
 
-        $id = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        if ($id === false) {
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($validatedId === false) {
             http_response_code(400);
             echo json_encode(["status" => "error", "message" => "Invalid reservation ID."]);
             return;
         }
         try {
-            if ($this->model->deleteReservation($id)) {
+            if ($this->model->deleteReservation($validatedId)) {
                 echo json_encode(["status" => "success", "message" => "Deleted successfully"]);
             } else {
                 http_response_code(404);

@@ -49,6 +49,13 @@ $router->add('GET', '/terms', function() {
 });
 
 // --- API Routes ---
+$router->add('GET', '/api/seatings', ['Modules\Reservation\Controllers\SeatingAPIController', 'index']);
+$router->add('POST', '/api/seatings', ['Modules\Reservation\Controllers\SeatingAPIController', 'create']);
+$router->add('PUT', '/api/seatings/{id}', ['Modules\Reservation\Controllers\SeatingAPIController', 'update']);
+$router->add('PATCH', '/api/seatings/{id}/toggle', ['Modules\Reservation\Controllers\SeatingAPIController', 'toggle']);
+$router->add('DELETE', '/api/seatings/{id}', ['Modules\Reservation\Controllers\SeatingAPIController', 'delete']);
+$router->add('GET', '/api/seatings/floors', ['Modules\Reservation\Controllers\SeatingAPIController', 'floors']);
+$router->add('POST', '/api/seatings/floors', ['Modules\Reservation\Controllers\SeatingAPIController', 'createFloor']);
 $router->add('POST', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'create']);
 $router->add('GET', '/api/reservations', ['Modules\Reservation\Controllers\ReservationAPIController', 'index']);
 $router->add('GET', '/api/reservations/lookup', ['Modules\Reservation\Controllers\ReservationAPIController', 'lookup']);

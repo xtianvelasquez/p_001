@@ -2,9 +2,9 @@
 namespace Core;
 
 class Router {
-    private $routes = [];
+    private array $routes = [];
 
-    public function add($method, $path, $callback) {
+    public function add(string $method, string $path, callable|array $callback): void {
         $this->routes[] = [
             'method' => strtoupper($method),
             'path' => $path,
@@ -12,8 +12,8 @@ class Router {
         ];
     }
 
-    public function dispatch($method, $uri) {
-        $uri = parse_url($uri, PHP_URL_PATH);
+    public function dispatch(string $method, string $uri): void {
+        $uri = parse_url($uri, PHP_URL_PATH) ?? '/';
         // Strip base path if running from a subdirectory (like /p_001/p_001/public)
         $basePath = '/p_001/public';
         $oldBasePath = '/p_001/p_001/public';
@@ -27,6 +27,7 @@ class Router {
         }
 
         foreach ($this->routes as $route) {
+            $params = [];
             if ($route['method'] === $method && $this->match($route['path'], $uri, $params)) {
                 if (is_callable($route['callback'])) {
                     call_user_func_array($route['callback'], $params);
@@ -48,10 +49,11 @@ class Router {
         echo "404 Not Found";
     }
 
-    private function match($routePath, $uri, &$params) {
+    private function match(string $routePath, string $uri, array &$params = []): bool {
         $routeRegex = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_\-]+)', $routePath);
         $routeRegex = "@^" . $routeRegex . "$@D";
         
+        $matches = [];
         if (preg_match($routeRegex, $uri, $matches)) {
             array_shift($matches);
             $params = $matches;

@@ -5,14 +5,14 @@ use Core\Database;
 use PDO;
 
 class ReservationModel {
-    private $db;
-    private $activeStatuses = ['pending', 'confirmed', 'seated'];
+    private PDO $db;
+    private array $activeStatuses = ['pending', 'confirmed', 'seated'];
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    public function createReservation($data) {
+    public function createReservation(array $data): int|string {
         $this->db->beginTransaction();
         try {
             // Insert Reservation Info
@@ -51,7 +51,7 @@ class ReservationModel {
         }
     }
 
-    public function checkAvailability($date, $time, $floor, $table) {
+    public function checkAvailability(string $date, string $time, string $floor, string $table): bool {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM reservation_info WHERE reservation_date = :date AND reservation_time = :time AND reservation_floor = :floor AND reservation_table = :table AND status IN ('pending', 'confirmed', 'seated')");
         $stmt->execute([
             ':date' => $date,
@@ -59,15 +59,15 @@ class ReservationModel {
             ':floor' => $floor,
             ':table' => $table
         ]);
-        return $stmt->fetchColumn() > 0;
+        return (int)$stmt->fetchColumn() > 0;
     }
 
-    public function getAllReservations() {
+    public function getAllReservations(): array {
         $stmt = $this->db->query("SELECT r.*, c.first_name, c.last_name, c.age, c.contact_num, c.email_add FROM reservation_info r JOIN customer_info c ON r.reservation_id = c.customer_id ORDER BY r.reservation_date DESC, r.reservation_time ASC");
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getReservationByCode($code) {
+    public function getReservationByCode(string|int $code): ?array {
         $stmt = $this->db->prepare("SELECT r.*, c.first_name, c.last_name, c.age, c.contact_num, c.email_add 
             FROM reservation_info r 
             JOIN customer_info c ON r.reservation_id = c.customer_id 
@@ -81,7 +81,7 @@ class ReservationModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public function getAvailableTables($date, $time, $guests) {
+    public function getAvailableTables(string $date, string $time, int|string $guests): array {
         $stmt = $this->db->prepare("SELECT t.table_name, t.floor_name, t.capacity, t.area
             FROM restaurant_tables t
             WHERE t.is_active = TRUE
@@ -99,21 +99,21 @@ class ReservationModel {
         $stmt->execute([
             ':date' => $date,
             ':time' => $time,
-            ':guests' => $guests
+            ':guests' => (int)$guests
         ]);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTableInfo($floor, $table) {
+    public function getTableInfo(string $floor, string $table): ?array {
         $stmt = $this->db->prepare("SELECT * FROM restaurant_tables WHERE floor_name = :floor AND table_name = :table");
         $stmt->execute([
             ':floor' => $floor,
             ':table' => $table
         ]);
-        return $stmt->fetch() ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public function updateStatus($id, $status) {
+    public function updateStatus(int|string $id, string $status): bool {
         $stmt = $this->db->prepare("UPDATE reservation_info SET status = :status, updated_at = CURRENT_TIMESTAMP WHERE reservation_id = :id");
         $stmt->execute([
             ':id' => $id,
@@ -122,7 +122,7 @@ class ReservationModel {
         return $stmt->rowCount() > 0;
     }
 
-    public function deleteReservation($id) {
+    public function deleteReservation(int|string $id): bool {
         $stmt = $this->db->prepare("DELETE FROM reservation_info WHERE reservation_id = :id");
         $stmt->execute([':id' => $id]);
         return $stmt->rowCount() > 0;

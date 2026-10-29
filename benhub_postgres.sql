@@ -32,13 +32,29 @@ CREATE TABLE customer_info (
     email_add VARCHAR(100)
 );
 
+CREATE TABLE restaurant_floors (
+    floor_id SERIAL PRIMARY KEY,
+    floor_name VARCHAR(50) UNIQUE NOT NULL,
+    description VARCHAR(255),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO restaurant_floors (floor_name, description) VALUES
+('Floor 1', 'Ground Floor - Main Dining & Window Area'),
+('Floor 2', 'Second Floor - Lounge & Bar Area'),
+('Floor 3', 'Third Floor - Private Function & VIP Rooms');
+
 CREATE TABLE restaurant_tables (
     table_id SERIAL PRIMARY KEY,
-    table_name VARCHAR(20) NOT NULL,
-    floor_name VARCHAR(20) NOT NULL,
+    table_name VARCHAR(50) NOT NULL,
+    floor_name VARCHAR(50) NOT NULL,
     capacity INTEGER NOT NULL,
-    area VARCHAR(50) DEFAULT 'Dining Room',
+    area VARCHAR(100) DEFAULT 'Dining Room',
+    description VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (table_name, floor_name)
 );
 

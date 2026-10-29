@@ -11,7 +11,7 @@ if ($code !== '') {
     }
 }
 
-function escape($value) {
+function escape(mixed $value): string {
     return htmlspecialchars((string)($value ?? ''), ENT_QUOTES, 'UTF-8');
 }
 ?>
