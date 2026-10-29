@@ -13,6 +13,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BenHub: Admin</title>
+  <link rel="icon" type="image/png" href="/assets/images/benhub-icon.png">
+  <link rel="shortcut icon" href="/assets/images/benhub-icon.png">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?v=5.3">
   <link rel="stylesheet" href="/assets/css/app.css?v=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -20,9 +22,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 <body>
   <div class="admin-toolbar py-2 py-md-3">
     <div class="container-lg d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-      <div>
-        <p class="section-kicker mb-0" style="font-size: 0.75rem;">BenHub Admin</p>
-        <h1 class="h5 fw-bold m-0"><i class="bi bi-person-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['admin_username']); ?></h1>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/admin">
+          <img src="/assets/images/benhub.png" alt="BenHub Logo" style="height: 32px; width: auto;">
+        </a>
+        <div>
+          <p class="section-kicker mb-0" style="font-size: 0.75rem;">BenHub Admin</p>
+          <h1 class="h5 fw-bold m-0"><i class="bi bi-person-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['admin_username']); ?></h1>
+        </div>
       </div>
 
       <!-- Navigation Tabs inside header before logout button -->
