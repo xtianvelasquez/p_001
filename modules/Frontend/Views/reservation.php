@@ -257,11 +257,27 @@
       document.getElementById('summaryTable').textContent = reserveTable.value ? `${reserveTable.value}, ${reserveFloor.value}` : 'Not selected';
     }
 
-    function showFeedback(type, message) {
-      feedback.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show mb-4">
+    let feedbackTimer = null;
+    function showFeedback(type, message, durationMs = 6000) {
+      if (feedbackTimer) {
+        clearTimeout(feedbackTimer);
+        feedbackTimer = null;
+      }
+
+      feedback.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show mb-4" role="alert">
         <span>${message}</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>`;
+
+      if (durationMs > 0) {
+        feedbackTimer = setTimeout(() => {
+          const alertEl = feedback.querySelector('.alert');
+          if (alertEl) {
+            const bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+            bsAlert.close();
+          }
+        }, durationMs);
+      }
     }
 
     function renderTables(tables) {

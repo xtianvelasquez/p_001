@@ -113,10 +113,17 @@
         if (res.status === 200) {
           window.location.href = '/admin';
         } else {
-          document.getElementById('feedbackMessage').innerHTML = `<div class='alert alert-danger alert-dismissible fade show mb-3'>
+          const fb = document.getElementById('feedbackMessage');
+          fb.innerHTML = `<div class='alert alert-danger alert-dismissible fade show mb-3' role='alert'>
             <strong>Error:</strong> ${res.body.message}
             <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
           </div>`;
+          setTimeout(() => {
+            const alertEl = fb.querySelector('.alert');
+            if (alertEl) {
+              bootstrap.Alert.getOrCreateInstance(alertEl).close();
+            }
+          }, 6000);
         }
       })
       .catch(error => {
