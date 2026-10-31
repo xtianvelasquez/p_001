@@ -1,102 +1,180 @@
 :root {
   --brand: #0f172a;
-  --brand-muted: #475569;
+  --brand-muted: #64748b;
   --accent: #b45309;
-  --accent-dark: #92400e;
+  --accent-hover: #92400e;
+  --accent-light: #fef3c7;
   --surface: #ffffff;
-  --soft: #f8fafc;
-  --line: #e2e8f0;
+  --surface-subtle: #f8fafc;
+  --surface-card: rgba(255, 255, 255, 0.95);
+  --border-subtle: #e2e8f0;
+  --border-card: rgba(226, 232, 240, 0.85);
+  --radius-bento: 20px;
+  --radius-sm: 12px;
+  --shadow-bento: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --shadow-bento-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
 }
 
 body {
-  background: var(--soft);
+  background-color: #f1f5f9;
   color: var(--brand);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.app-shell {
-  min-height: 100vh;
+/* =========================================
+   BENTO GRID UTILITIES
+========================================= */
+.bento-grid {
+  display: grid;
+  gap: 1.25rem;
 }
 
-.site-header {
+.bento-card {
   background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-bento);
+  box-shadow: var(--shadow-bento);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
-.brand-mark {
-  max-width: 190px;
-  height: auto;
+.bento-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-bento-hover);
+  border-color: #cbd5e1;
 }
 
-.hero-band {
-  background: linear-gradient(90deg, rgba(15, 23, 42, .88), rgba(15, 23, 42, .45)), url("../images/image1.jpg") center/cover;
-  color: #fff;
-  min-height: 420px;
+.bento-card-dark {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+  border-color: #334155;
 }
 
-.hero-band .lead {
-  color: #e2e8f0;
+.bento-card-accent {
+  background: linear-gradient(135deg, #b45309 0%, #92400e 100%);
+  color: #ffffff;
+  border-color: #b45309;
 }
 
-.content-panel {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, .07);
+.bento-card-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.section-kicker {
-  color: var(--accent);
-  font-size: .78rem;
+.bento-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  border-radius: 999px;
+  background: var(--surface-subtle);
+  color: var(--accent);
+  border: 1px solid var(--border-subtle);
 }
 
+.bento-card-dark .bento-tag {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fde68a;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.bento-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.bento-icon-box.dark {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fde68a;
+}
+
+.bento-icon-box.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.bento-icon-box.primary {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* =========================================
+   COMPONENTS & BUTTONS
+========================================= */
 .btn-accent {
   --bs-btn-color: #fff;
   --bs-btn-bg: var(--accent);
   --bs-btn-border-color: var(--accent);
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: var(--accent-dark);
-  --bs-btn-hover-border-color: var(--accent-dark);
+  --bs-btn-hover-bg: var(--accent-hover);
+  --bs-btn-hover-border-color: var(--accent-hover);
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.15s ease;
 }
 
-.stat-tile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 1rem;
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.25);
 }
 
+.section-kicker {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Table Option Pill */
 .table-option {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: .85rem;
+  background: var(--surface);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem;
   cursor: pointer;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: all 0.15s ease;
 }
 
-.table-option:hover,
+.table-option:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
 .table-option.active {
   border-color: var(--accent);
-  box-shadow: 0 0 0 .2rem rgba(180, 83, 9, .12);
+  background: #fffbeb;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15);
 }
 
-.admin-toolbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-}
-
+/* Status Pills */
 .status-pill {
   border-radius: 999px;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  padding: .25rem .55rem;
+  padding: 0.25rem 0.65rem;
   text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
-.status-confirmed,
-.status-seated {
+.status-confirmed, .status-seated {
   background: #dcfce7;
   color: #166534;
 }
@@ -111,20 +189,31 @@ body {
   color: #1d4ed8;
 }
 
-.status-cancelled,
-.status-no_show {
+.status-cancelled, .status-no_show {
   background: #fee2e2;
   color: #991b1b;
 }
 
-@media (max-width: 767.98px) {
-  .hero-band {
-    min-height: 360px;
-  }
+/* Toolbar & Header */
+.admin-toolbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-subtle);
+}
 
-  .content-panel {
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
+/* Legacy .content-panel alias now uses Bento aesthetics */
+.content-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-bento);
+  box-shadow: var(--shadow-bento);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 767.98px) {
+  :root {
+    --radius-bento: 16px;
+  }
+  .bento-grid {
+    gap: 0.85rem;
   }
 }

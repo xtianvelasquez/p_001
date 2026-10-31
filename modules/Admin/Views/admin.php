@@ -61,43 +61,68 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
       <div class="tab-content" id="adminTabsContent">
         <!-- ==================== TAB 1: RESERVATIONS ==================== -->
         <div class="tab-pane fade show active" id="reservationsPane" role="tabpanel" aria-labelledby="reservations-tab">
+          <!-- Reservations Bento Metrics -->
           <div class="row g-3 mb-4">
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Total reservations</div>
-                <div class="fs-3 fw-bold" id="statTotal">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Total Bookings</span>
+                  <div class="bento-icon-box primary" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statTotal">0</div>
+                <div class="small text-muted mt-1">All-time reservations</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Today</div>
-                <div class="fs-3 fw-bold" id="statToday">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Today's Visits</span>
+                  <div class="bento-icon-box" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-calendar-event-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statToday">0</div>
+                <div class="small text-muted mt-1">Scheduled for today</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Upcoming guests</div>
-                <div class="fs-3 fw-bold" id="statGuests">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Upcoming Guests</span>
+                  <div class="bento-icon-box success" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-people-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statGuests">0</div>
+                <div class="small text-muted mt-1">Headcount arriving</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Active bookings</div>
-                <div class="fs-3 fw-bold" id="statActive">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Active Bookings</span>
+                  <div class="bento-icon-box dark" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-patch-check-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statActive">0</div>
+                <div class="small text-muted mt-1">Pending / Confirmed / Seated</div>
               </div>
             </div>
           </div>
 
-          <div class="content-panel p-3 p-md-4">
+          <div class="bento-card p-3 p-md-4">
             <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
               <div>
-                <p class="section-kicker mb-1">Reservations</p>
-                <h2 class="h5 fw-bold mb-0">Manage bookings</h2>
+                <span class="bento-tag mb-1">Live Manifest</span>
+                <h2 class="h5 fw-bold mb-0">Manage Bookings</h2>
               </div>
               <div class="row g-2 flex-grow-1 justify-content-lg-end">
                 <div class="col-lg-4">
                   <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
                     <input type="search" id="searchInput" class="form-control" placeholder="Search name, code, contact">
                   </div>
                 </div>
@@ -119,8 +144,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             </div>
 
             <div class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead>
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
                   <tr>
                     <th>Code</th>
                     <th>Guest</th>
@@ -141,41 +166,65 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         <!-- ==================== TAB 2: SEATING MANAGEMENT ==================== -->
         <div class="tab-pane fade" id="seatingsPane" role="tabpanel" aria-labelledby="seatings-tab">
-          <!-- Seating Stat Tiles -->
+          <!-- Seating Bento Metrics -->
           <div class="row g-3 mb-4">
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Total tables</div>
-                <div class="fs-3 fw-bold" id="statTablesTotal">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Total Tables</span>
+                  <div class="bento-icon-box primary" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statTablesTotal">0</div>
+                <div class="small text-muted mt-1">Configured tables</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Active tables</div>
-                <div class="fs-3 fw-bold text-success" id="statTablesActive">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Active Tables</span>
+                  <div class="bento-icon-box success" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-success" id="statTablesActive">0</div>
+                <div class="small text-muted mt-1">Bookable by guests</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Total guest capacity</div>
-                <div class="fs-3 fw-bold" id="statTotalCapacity">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Guest Capacity</span>
+                  <div class="bento-icon-box" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-person-fill-check"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statTotalCapacity">0</div>
+                <div class="small text-muted mt-1">Total concurrent seats</div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stat-tile">
-                <div class="text-secondary small">Floors / Levels</div>
-                <div class="fs-3 fw-bold" id="statFloorsCount">0</div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="bento-card p-3 p-md-4 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="text-secondary small fw-semibold">Floors & Levels</span>
+                  <div class="bento-icon-box dark" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-layers-fill"></i>
+                  </div>
+                </div>
+                <div class="fs-2 fw-bold text-dark" id="statFloorsCount">0</div>
+                <div class="small text-muted mt-1">Distinct dining areas</div>
               </div>
             </div>
           </div>
 
-          <!-- Seating Content Panel -->
-          <div class="content-panel p-3 p-md-4">
+          <!-- Seating Bento Panel -->
+          <div class="bento-card p-3 p-md-4">
             <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
               <div>
-                <p class="section-kicker mb-1">Floor Plan & Capacity</p>
+                <span class="bento-tag mb-1">Layout & Availability</span>
                 <h2 class="h5 fw-bold mb-0">Restaurant Tables & Seating</h2>
-                <div class="small text-secondary">Update tables, floors, and capacities to adjust live customer booking availability.</div>
+                <div class="small text-secondary">Toggle availability or update capacities to immediately sync with live booking.</div>
               </div>
               <div>
                 <button type="button" class="btn btn-accent btn-sm px-3 py-2" id="openAddTableBtn">
@@ -188,7 +237,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="row g-2 mb-4">
               <div class="col-md-5">
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
                   <input type="search" id="seatingSearchInput" class="form-control" placeholder="Search table name, floor, area...">
                 </div>
               </div>
@@ -208,8 +257,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
             <!-- Seating Tables List -->
             <div class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead>
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
                   <tr>
                     <th>Table Name</th>
                     <th>Floor</th>

@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="/assets/images/benhub-icon.png">
   <link rel="shortcut icon" href="/assets/images/benhub-icon.png">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?v=5.3">
-  <link rel="stylesheet" href="/assets/css/app.css?v=1.0">
+  <link rel="stylesheet" href="/assets/css/app.css?v=2.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 <body>
@@ -16,151 +16,226 @@
   include __DIR__ . "/extras/nav_index.php";
   ?>
 
-  <main id="reservation" class="py-5">
+  <main id="reservation" class="py-4 py-md-5">
     <div class="container-lg">
-      <div class="row justify-content-center mb-4">
-        <div class="col-lg-9 text-center">
-          <p class="section-kicker mb-2">Reservations</p>
-          <h1 class="display-6 fw-bold mb-3">Book a table with confidence</h1>
-          <p class="lead text-secondary mb-0">Choose your visit details, pick an available table, and receive a confirmation code instantly.</p>
+      
+      <!-- Top Title Bento Header -->
+      <div class="bento-card bento-card-dark p-4 p-md-5 mb-4 position-relative">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 position-relative z-1">
+          <div>
+            <span class="bento-tag mb-2">
+              <i class="bi bi-calendar2-week"></i> Direct Dining Reservation
+            </span>
+            <h1 class="h2 fw-bold text-white mb-2">Book a table with confidence</h1>
+            <p class="text-light opacity-75 mb-0" style="max-width: 600px;">
+              Select your schedule, review real-time seating availability across our 3 floors, and secure your dining spot.
+            </p>
+          </div>
+          <div class="text-md-end">
+            <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-semibold">
+              <i class="bi bi-clock-history text-warning me-1"></i> 10:00 AM – 6:00 PM
+            </span>
+          </div>
         </div>
       </div>
 
-      <div class="row justify-content-center g-4">
+      <div id="feedbackMessage"></div>
+
+      <!-- Bento Split Grid: Form + Live Summary Pass -->
+      <div class="row g-3 g-lg-4">
+        
+        <!-- Main Form Column (8 cols) -->
         <div class="col-lg-8">
-          <div class="content-panel p-4 p-md-5">
-            <div id="feedbackMessage"></div>
-
-            <form id="reservationForm" autocomplete="off">
-              <div class="mb-4">
-                <p class="section-kicker mb-2">Step 1</p>
-                <h2 class="h5 fw-bold mb-3">Visit details</h2>
-                <div class="row g-3">
-                  <div class="col-md-4">
-                    <label for="reserveDate" class="form-label">Date</label>
-                    <input type="date" name="reserveDate" id="reserveDate" class="form-control" required>
-                  </div>
-                  <div class="col-md-4">
-                    <label for="reserveTime" class="form-label">Time</label>
-                    <select name="reserveTime" id="reserveTime" class="form-select" required>
-                      <option value="10:00 AM">10:00 AM</option>
-                      <option value="10:30 AM">10:30 AM</option>
-                      <option value="11:00 AM">11:00 AM</option>
-                      <option value="11:30 AM">11:30 AM</option>
-                      <option value="12:00 PM">12:00 NN</option>
-                      <option value="12:30 PM">12:30 PM</option>
-                      <option value="1:00 PM">1:00 PM</option>
-                      <option value="1:30 PM">1:30 PM</option>
-                      <option value="2:00 PM">2:00 PM</option>
-                      <option value="2:30 PM">2:30 PM</option>
-                      <option value="3:00 PM">3:00 PM</option>
-                      <option value="3:30 PM">3:30 PM</option>
-                      <option value="4:00 PM">4:00 PM</option>
-                      <option value="4:30 PM">4:30 PM</option>
-                      <option value="5:00 PM">5:00 PM</option>
-                      <option value="5:30 PM">5:30 PM</option>
-                      <option value="6:00 PM">6:00 PM</option>
-                    </select>
-                  </div>
-                  <div class="col-md-4">
-                    <label for="numGuest" class="form-label">Guests</label>
-                    <input type="number" name="numGuest" id="numGuest" min="1" max="13" class="form-control" required>
-                  </div>
+          <form id="reservationForm" autocomplete="off">
+            
+            <!-- Step 1 Bento Card: Visit Details -->
+            <div class="bento-card p-4 p-md-4 mb-3">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="bento-icon-box" style="width:36px; height:36px; font-size:1.1rem;">
+                  <i class="bi bi-1-circle-fill"></i>
                 </div>
-              </div>
-
-              <div class="mb-4">
-                <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
-                  <div>
-                    <p class="section-kicker mb-2">Step 2</p>
-                    <h2 class="h5 fw-bold mb-0">Available tables</h2>
-                  </div>
-                  <button type="button" id="checkAvailabilityBtn" class="btn btn-outline-secondary">
-                    <i class="bi bi-search"></i> Check availability
-                  </button>
-                </div>
-                <input type="hidden" name="reserveFloor" id="reserveFloor" required>
-                <input type="hidden" name="reserveTable" id="reserveTable" required>
-                <div id="tableOptions" class="row g-3">
-                  <div class="col-12">
-                    <div class="alert alert-light border mb-0">Enter visit details to view available tables.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mb-4">
-                <p class="section-kicker mb-2">Step 3</p>
-                <h2 class="h5 fw-bold mb-3">Guest information</h2>
-                <div class="row g-3">
-                  <div class="col-md-5">
-                    <label for="firstName" class="form-label">First name</label>
-                    <input type="text" name="firstName" id="firstName" maxlength="100" class="form-control" required>
-                  </div>
-                  <div class="col-md-5">
-                    <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" name="lastName" id="lastName" maxlength="100" class="form-control" required>
-                  </div>
-                  <div class="col-md-2">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="number" name="age" id="age" min="18" max="80" class="form-control" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="contactNum" class="form-label">Contact number</label>
-                    <div class="input-group">
-                      <span class="input-group-text">+63</span>
-                      <input type="text" name="contactNum" id="contactNum" pattern="\d{10}" minlength="10" maxlength="10" class="form-control" placeholder="9123456789" required>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="emailAdd" class="form-label">Email address</label>
-                    <input type="email" name="emailAdd" id="emailAdd" maxlength="100" class="form-control" placeholder="info@example.com" required>
-                  </div>
-                  <div class="col-md-5">
-                    <label for="occasion" class="form-label">Occasion</label>
-                    <select name="occasion" id="occasion" class="form-select">
-                      <option value="">None</option>
-                      <option value="Birthday">Birthday</option>
-                      <option value="Anniversary">Anniversary</option>
-                      <option value="Business Meal">Business Meal</option>
-                      <option value="Family Gathering">Family Gathering</option>
-                    </select>
-                  </div>
-                  <div class="col-md-7">
-                    <label for="specialRequest" class="form-label">Special request</label>
-                    <input type="text" name="specialRequest" id="specialRequest" maxlength="1000" class="form-control" placeholder="Allergies, seating preference, accessibility needs">
-                  </div>
-                </div>
-              </div>
-
-              <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                 <div>
-                  <input type="checkbox" id="checkbox" required>
-                  <label for="checkbox">I accept the <span class="text-primary" role="button" data-bs-target="#tc_modal" data-bs-toggle="modal">terms and conditions</span>.</label>
+                  <span class="section-kicker">Step 1</span>
+                  <h2 class="h6 fw-bold mb-0">Choose Visit Schedule</h2>
                 </div>
-                <button type="submit" class="btn btn-accent py-2 px-4">
-                  <i class="bi bi-calendar-check"></i> Confirm reservation
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="reserveDate" class="form-label small fw-semibold text-secondary">Date *</label>
+                  <input type="date" name="reserveDate" id="reserveDate" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="reserveTime" class="form-label small fw-semibold text-secondary">Time Slot *</label>
+                  <select name="reserveTime" id="reserveTime" class="form-select" required>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="10:30 AM">10:30 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="11:30 AM">11:30 AM</option>
+                    <option value="12:00 PM">12:00 NN</option>
+                    <option value="12:30 PM">12:30 PM</option>
+                    <option value="1:00 PM">1:00 PM</option>
+                    <option value="1:30 PM">1:30 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="2:30 PM">2:30 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="3:30 PM">3:30 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                    <option value="4:30 PM">4:30 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
+                    <option value="5:30 PM">5:30 PM</option>
+                    <option value="6:00 PM">6:00 PM</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="numGuest" class="form-label small fw-semibold text-secondary">Number of Guests *</label>
+                  <input type="number" name="numGuest" id="numGuest" min="1" max="13" class="form-control" placeholder="1 - 13" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 Bento Card: Available Tables -->
+            <div class="bento-card p-4 p-md-4 mb-3">
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="bento-icon-box success" style="width:36px; height:36px; font-size:1.1rem;">
+                    <i class="bi bi-2-circle-fill"></i>
+                  </div>
+                  <div>
+                    <span class="section-kicker" style="color: #166534;">Step 2</span>
+                    <h2 class="h6 fw-bold mb-0">Select Table & Seating</h2>
+                  </div>
+                </div>
+                <button type="button" id="checkAvailabilityBtn" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-arrow-clockwise"></i> Refresh Tables
                 </button>
               </div>
-            </form>
+
+              <input type="hidden" name="reserveFloor" id="reserveFloor" required>
+              <input type="hidden" name="reserveTable" id="reserveTable" required>
+              
+              <div id="tableOptions" class="row g-2">
+                <div class="col-12">
+                  <div class="alert alert-light border mb-0 text-secondary small">
+                    <i class="bi bi-info-circle me-1"></i> Enter date, time, and guest count to view available tables.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 Bento Card: Guest Information -->
+            <div class="bento-card p-4 p-md-4 mb-3">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="bento-icon-box primary" style="width:36px; height:36px; font-size:1.1rem;">
+                  <i class="bi bi-3-circle-fill"></i>
+                </div>
+                <div>
+                  <span class="section-kicker" style="color: #1e40af;">Step 3</span>
+                  <h2 class="h6 fw-bold mb-0">Guest Details</h2>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-5">
+                  <label for="firstName" class="form-label small fw-semibold text-secondary">First name *</label>
+                  <input type="text" name="firstName" id="firstName" maxlength="100" class="form-control" placeholder="Given name" required>
+                </div>
+                <div class="col-md-5">
+                  <label for="lastName" class="form-label small fw-semibold text-secondary">Last name *</label>
+                  <input type="text" name="lastName" id="lastName" maxlength="100" class="form-control" placeholder="Family name" required>
+                </div>
+                <div class="col-md-2">
+                  <label for="age" class="form-label small fw-semibold text-secondary">Age *</label>
+                  <input type="number" name="age" id="age" min="18" max="80" class="form-control" placeholder="18-80" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="contactNum" class="form-label small fw-semibold text-secondary">Contact Number *</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">+63</span>
+                    <input type="text" name="contactNum" id="contactNum" pattern="\d{10}" minlength="10" maxlength="10" class="form-control" placeholder="9123456789" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="emailAdd" class="form-label small fw-semibold text-secondary">Email Address *</label>
+                  <input type="email" name="emailAdd" id="emailAdd" maxlength="100" class="form-control" placeholder="name@example.com" required>
+                </div>
+                <div class="col-md-5">
+                  <label for="occasion" class="form-label small fw-semibold text-secondary">Occasion</label>
+                  <select name="occasion" id="occasion" class="form-select">
+                    <option value="">None / Casual Dining</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Anniversary">Anniversary</option>
+                    <option value="Business Meal">Business Meal</option>
+                    <option value="Family Gathering">Family Gathering</option>
+                  </select>
+                </div>
+                <div class="col-md-7">
+                  <label for="specialRequest" class="form-label small fw-semibold text-secondary">Special Requests</label>
+                  <input type="text" name="specialRequest" id="specialRequest" maxlength="1000" class="form-control" placeholder="Allergies, high chair, seating notes...">
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento Card: Confirmation Action -->
+            <div class="bento-card p-3 p-md-4 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="checkbox" required>
+                <label class="form-check-label small" for="checkbox">
+                  I accept the <a href="javascript:void(0)" class="text-decoration-underline text-primary" data-bs-target="#tc_modal" data-bs-toggle="modal">Terms and Conditions</a>
+                </label>
+              </div>
+              <button type="submit" class="btn btn-accent px-4 py-2">
+                <i class="bi bi-calendar-check me-1"></i> Confirm Reservation
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Bento Aside Column: Real-Time Booking Pass (4 cols) -->
+        <div class="col-lg-4">
+          <div class="bento-card p-4 position-sticky" style="top: 1.5rem;">
+            <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+              <span class="bento-tag">Live Summary</span>
+              <span class="badge bg-light text-dark border">
+                <i class="bi bi-shield-check text-success me-1"></i> BenHub
+              </span>
+            </div>
+
+            <h3 class="h6 fw-bold mb-3">Booking Overview</h3>
+            
+            <div class="bg-light rounded-3 p-3 mb-3">
+              <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="small text-secondary">Date:</span>
+                <strong class="small text-dark" id="summaryDate">Not selected</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="small text-secondary">Time Slot:</span>
+                <strong class="small text-dark" id="summaryTime">Not selected</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="small text-secondary">Guests:</span>
+                <strong class="small text-dark" id="summaryGuests">Not selected</strong>
+              </div>
+              <div class="d-flex justify-content-between py-2">
+                <span class="small text-secondary">Selected Table:</span>
+                <strong class="small text-primary" id="summaryTable">Not selected</strong>
+              </div>
+            </div>
+
+            <div class="small text-secondary mb-3">
+              <i class="bi bi-qr-code text-warning me-1"></i> A digital booking pass with a scannable QR code will be generated immediately upon confirmation.
+            </div>
+
+            <div class="p-3 bg-white border rounded-3 text-center">
+              <div class="small text-muted mb-1">Need help or private booking?</div>
+              <a href="tel:+15555551234" class="text-decoration-none fw-semibold small text-dark">
+                <i class="bi bi-telephone text-primary me-1"></i> +1 (555) 555-1234
+              </a>
+            </div>
           </div>
         </div>
 
-        <aside class="col-lg-4">
-          <div class="content-panel p-4 position-sticky" style="top: 1rem;">
-            <p class="section-kicker mb-2">Summary</p>
-            <h2 class="h5 fw-bold mb-3">Your booking</h2>
-            <dl class="row mb-0">
-              <dt class="col-5 text-secondary fw-normal">Date</dt>
-              <dd class="col-7" id="summaryDate">Not selected</dd>
-              <dt class="col-5 text-secondary fw-normal">Time</dt>
-              <dd class="col-7" id="summaryTime">Not selected</dd>
-              <dt class="col-5 text-secondary fw-normal">Guests</dt>
-              <dd class="col-7" id="summaryGuests">Not selected</dd>
-              <dt class="col-5 text-secondary fw-normal">Table</dt>
-              <dd class="col-7" id="summaryTable">Not selected</dd>
-            </dl>
-          </div>
-        </aside>
       </div>
     </div>
   </main>
@@ -255,8 +330,8 @@
     function updateSummary() {
       document.getElementById('summaryDate').textContent = reserveDate.value || 'Not selected';
       document.getElementById('summaryTime').textContent = reserveTime.value || 'Not selected';
-      document.getElementById('summaryGuests').textContent = numGuest.value || 'Not selected';
-      document.getElementById('summaryTable').textContent = reserveTable.value ? `${reserveTable.value}, ${reserveFloor.value}` : 'Not selected';
+      document.getElementById('summaryGuests').textContent = numGuest.value ? `${numGuest.value} Guest(s)` : 'Not selected';
+      document.getElementById('summaryTable').textContent = reserveTable.value ? `${reserveTable.value} (${reserveFloor.value})` : 'Not selected';
     }
 
     let feedbackTimer = null;
@@ -293,11 +368,11 @@
       }
 
       tableOptions.innerHTML = tables.map(table => `
-        <div class="col-md-6">
+        <div class="col-sm-6 col-md-4">
           <div class="table-option" tabindex="0" role="button" data-floor="${table.floor_name}" data-table="${table.table_name}">
-            <div class="d-flex justify-content-between gap-3">
-              <strong>${table.table_name}</strong>
-              <span class="text-secondary">${table.capacity} seats</span>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong class="text-dark">${table.table_name}</strong>
+              <span class="badge bg-light text-dark border">${table.capacity} guests</span>
             </div>
             <div class="small text-secondary">${table.floor_name} · ${table.area}</div>
           </div>
@@ -311,7 +386,7 @@
         return;
       }
 
-      tableOptions.innerHTML = '<div class="col-12"><div class="alert alert-light border mb-0">Checking available tables...</div></div>';
+      tableOptions.innerHTML = '<div class="col-12"><div class="alert alert-light border mb-0"><span class="spinner-border spinner-border-sm me-2"></span>Checking available tables...</div></div>';
 
       const params = new URLSearchParams({
         date: reserveDate.value,
@@ -320,12 +395,12 @@
       });
 
       fetch(`/api/reservations/availability?${params.toString()}`)
-        .then(response => response.json())
+        .then(response => response.json().then(data => ({status: response.status, body: data})))
         .then(res => {
-          if (res.status === 'success') {
-            renderTables(res.data);
+          if (res.status === 200 && res.body.status === 'success') {
+            renderTables(res.body.data);
           } else {
-            tableOptions.innerHTML = `<div class="col-12"><div class="alert alert-danger mb-0">${res.message}</div></div>`;
+            tableOptions.innerHTML = `<div class="col-12"><div class="alert alert-danger mb-0">${res.body.message || 'Error loading tables.'}</div></div>`;
           }
         })
         .catch(() => {
@@ -341,16 +416,28 @@
           checkAvailability();
         }
       });
+      input.addEventListener('input', updateSummary);
     });
 
-    tableOptions.addEventListener('click', event => {
-      const option = event.target.closest('.table-option');
+    tableOptions.addEventListener('click', function(e) {
+      const option = e.target.closest('.table-option');
       if (!option) return;
+
       document.querySelectorAll('.table-option').forEach(item => item.classList.remove('active'));
       option.classList.add('active');
       reserveFloor.value = option.dataset.floor;
       reserveTable.value = option.dataset.table;
       updateSummary();
+    });
+
+    tableOptions.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const option = e.target.closest('.table-option');
+        if (option) {
+          e.preventDefault();
+          option.click();
+        }
+      }
     });
 
     reservationForm.addEventListener('submit', function(e) {

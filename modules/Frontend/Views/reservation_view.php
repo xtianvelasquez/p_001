@@ -24,37 +24,9 @@ function escape(mixed $value): string {
   <link rel="icon" type="image/png" href="/assets/images/benhub-icon.png">
   <link rel="shortcut icon" href="/assets/images/benhub-icon.png">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?v=5.3">
-  <link rel="stylesheet" href="/assets/css/app.css?v=1.0">
+  <link rel="stylesheet" href="/assets/css/app.css?v=2.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
-    .pass-card {
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-      overflow: hidden;
-    }
-    .pass-header {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #ffffff;
-      padding: 1.5rem;
-    }
-    .pass-code-badge {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-    .detail-item {
-      padding: 0.75rem 0;
-      border-bottom: 1px dashed #e2e8f0;
-    }
-    .detail-item:last-child {
-      border-bottom: none;
-    }
     @media print {
       body {
         background: #ffffff !important;
@@ -62,7 +34,7 @@ function escape(mixed $value): string {
       .no-print {
         display: none !important;
       }
-      .pass-card {
+      .bento-card {
         box-shadow: none !important;
         border: 1px solid #ccc !important;
       }
@@ -91,7 +63,7 @@ function escape(mixed $value): string {
   <main class="flex-grow-1 py-4 py-md-5">
     <div class="container-lg">
       <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
+        <div class="col-12 col-md-10 col-lg-8">
 
           <?php if ($reservation): ?>
             <?php 
@@ -100,119 +72,141 @@ function escape(mixed $value): string {
               $formattedDate = date('F j, Y (l)', strtotime($reservation['reservation_date']));
               $formattedTime = date('g:i A', strtotime($reservation['reservation_time']));
             ?>
-            <div class="pass-card">
-              <!-- Header -->
-              <div class="pass-header text-center">
-                <p class="section-kicker text-warning mb-1">Official Reservation Pass</p>
-                <h1 class="h4 fw-bold mb-3">BenHub Restaurant</h1>
-                <div class="d-inline-flex align-items-center pass-code-badge">
-                  <i class="bi bi-qr-code-scan me-2"></i>
-                  <span><?= escape($reservation['confirmation_code']) ?></span>
+            
+            <!-- Bento Pass Container -->
+            <div class="row g-3">
+              <!-- Bento Card 1: Pass Header Banner -->
+              <div class="col-12">
+                <div class="bento-card bento-card-dark p-4 text-center">
+                  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <span class="bento-tag">
+                      <i class="bi bi-patch-check-fill text-warning"></i> Official Booking Pass
+                    </span>
+                    <span class="status-pill <?= $statusClass ?> fs-6 px-3 py-1">
+                      <?= ucfirst(str_replace('_', ' ', $status)) ?>
+                    </span>
+                  </div>
+                  
+                  <h1 class="h3 fw-bold text-white mb-2">BenHub Restaurant</h1>
+                  <p class="text-light opacity-75 small mb-3">Present this digital pass upon arrival for immediate seating.</p>
+
+                  <div class="d-inline-flex align-items-center bg-white bg-opacity-10 border border-white border-opacity-25 px-4 py-2 rounded-pill font-monospace fs-4 fw-bold text-warning">
+                    <i class="bi bi-qr-code-scan me-2"></i>
+                    <span><?= escape($reservation['confirmation_code']) ?></span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Pass Body -->
-              <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="text-secondary small text-uppercase fw-bold">Booking Status</span>
-                  <span class="status-pill <?= $statusClass ?> fs-6 px-3 py-1"><?= ucfirst(str_replace('_', ' ', $status)) ?></span>
-                </div>
+              <!-- Bento Card 2: Guest & Visit Details (Col 7) -->
+              <div class="col-md-7">
+                <div class="bento-card p-4 h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <span class="section-kicker">Reservation Details</span>
+                    <h3 class="h5 fw-bold text-dark mt-1 mb-3"><?= escape($reservation['first_name'] . ' ' . $reservation['last_name']) ?></h3>
 
-                <div class="detail-item">
-                  <div class="small text-secondary">Guest Name</div>
-                  <div class="fw-bold fs-5"><?= escape($reservation['first_name'] . ' ' . $reservation['last_name']) ?></div>
-                </div>
+                    <div class="row g-2 mb-3">
+                      <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                          <div class="small text-secondary">Date</div>
+                          <div class="fw-bold text-dark"><?= escape($formattedDate) ?></div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                          <div class="small text-secondary">Time Slot</div>
+                          <div class="fw-bold text-dark"><?= escape($formattedTime) ?></div>
+                        </div>
+                      </div>
+                    </div>
 
-                <div class="row">
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Contact Number</div>
-                    <div class="fw-semibold"><?= escape($reservation['contact_num']) ?></div>
-                  </div>
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Email Address</div>
-                    <div class="fw-semibold text-truncate"><?= escape($reservation['email_add']) ?></div>
-                  </div>
-                </div>
+                    <div class="row g-2 mb-3">
+                      <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                          <div class="small text-secondary">Table & Level</div>
+                          <div class="fw-bold text-dark"><?= escape($reservation['reservation_table']) ?></div>
+                          <div class="small text-muted"><?= escape($reservation['reservation_floor']) ?></div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="p-3 bg-light rounded-3">
+                          <div class="small text-secondary">Party Size</div>
+                          <div class="fw-bold text-dark"><?= escape($reservation['num_guest']) ?> Guest<?= (int)$reservation['num_guest'] > 1 ? 's' : '' ?></div>
+                        </div>
+                      </div>
+                    </div>
 
-                <div class="row">
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Date</div>
-                    <div class="fw-bold text-primary"><?= escape($formattedDate) ?></div>
+                    <?php if (!empty($reservation['occasion']) || !empty($reservation['special_request'])): ?>
+                      <div class="p-3 bg-light rounded-3 mb-2 small">
+                        <?php if (!empty($reservation['occasion'])): ?>
+                          <div><strong>Occasion:</strong> <?= escape($reservation['occasion']) ?></div>
+                        <?php endif; ?>
+                        <?php if (!empty($reservation['special_request'])): ?>
+                          <div class="text-secondary mt-1"><em>"<?= escape($reservation['special_request']) ?>"</em></div>
+                        <?php endif; ?>
+                      </div>
+                    <?php endif; ?>
                   </div>
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Time Slot</div>
-                    <div class="fw-bold text-primary"><?= escape($formattedTime) ?></div>
-                  </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Table & Floor</div>
-                    <div class="fw-semibold"><?= escape($reservation['reservation_table']) ?> <span class="badge bg-secondary"><?= escape($reservation['reservation_floor']) ?></span></div>
+                  <div class="small text-muted pt-2 border-top">
+                    <i class="bi bi-envelope me-1"></i> <?= escape($reservation['email_add']) ?> &nbsp;·&nbsp;
+                    <i class="bi bi-phone me-1"></i> <?= escape($reservation['contact_num']) ?>
                   </div>
-                  <div class="col-6 detail-item">
-                    <div class="small text-secondary">Party Size</div>
-                    <div class="fw-semibold"><?= escape($reservation['num_guest']) ?> Guest<?= (int)$reservation['num_guest'] > 1 ? 's' : '' ?></div>
-                  </div>
-                </div>
-
-                <?php if (!empty($reservation['occasion'])): ?>
-                  <div class="detail-item">
-                    <div class="small text-secondary">Occasion</div>
-                    <div class="fw-semibold"><?= escape($reservation['occasion']) ?></div>
-                  </div>
-                <?php endif; ?>
-
-                <?php if (!empty($reservation['special_request'])): ?>
-                  <div class="detail-item">
-                    <div class="small text-secondary">Special Requests</div>
-                    <div class="fw-semibold text-secondary fst-italic"><?= escape($reservation['special_request']) ?></div>
-                  </div>
-                <?php endif; ?>
-
-                <!-- Mini QR & Scan Verification Proof -->
-                <div class="bg-light border rounded p-3 text-center mt-4">
-                  <div id="qrcodeView" class="d-flex justify-content-center mb-2"></div>
-                  <div class="small text-secondary">Present this pass upon arrival at BenHub.</div>
-                  <div class="small text-muted font-monospace mt-1">ID: #<?= escape($reservation['reservation_id']) ?></div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="d-flex gap-2 mt-4 no-print">
-                  <button type="button" class="btn btn-outline-secondary w-50" onclick="window.print()">
-                    <i class="bi bi-printer"></i> Print Pass
-                  </button>
-                  <a href="/reservation" class="btn btn-accent w-50">
-                    <i class="bi bi-calendar-check"></i> Book Again
-                  </a>
                 </div>
               </div>
+
+              <!-- Bento Card 3: QR Code & Verification (Col 5) -->
+              <div class="col-md-5">
+                <div class="bento-card p-4 h-100 d-flex flex-column justify-content-between text-center">
+                  <div>
+                    <span class="section-kicker">Scannable Proof</span>
+                    <h4 class="h6 fw-bold mt-1 mb-3">Host Verification</h4>
+                    
+                    <div class="d-flex justify-content-center mb-3">
+                      <div id="qrcodeView" class="p-2 bg-white border rounded-3 shadow-sm"></div>
+                    </div>
+                    
+                    <div class="small text-secondary">
+                      Scan with any smartphone camera to view live booking details.
+                    </div>
+                  </div>
+
+                  <div class="pt-3 border-top no-print">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 mb-2" onclick="window.print()">
+                      <i class="bi bi-printer me-1"></i> Print / Save Pass
+                    </button>
+                    <a href="/reservation" class="btn btn-accent btn-sm w-100">
+                      <i class="bi bi-calendar-plus me-1"></i> Book Another Table
+                    </a>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           <?php else: ?>
-            <!-- Not Found State -->
-            <div class="card shadow-sm border-0 p-4 p-md-5 text-center">
-              <div class="text-warning display-4 mb-3">
-                <i class="bi bi-exclamation-triangle"></i>
+            <!-- Not Found Bento State -->
+            <div class="bento-card p-4 p-md-5 text-center">
+              <div class="bento-icon-box mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.6rem;">
+                <i class="bi bi-search"></i>
               </div>
               <h2 class="h4 fw-bold mb-2">Reservation Not Found</h2>
               <p class="text-secondary mb-4">
-                <?= $code !== '' ? 'No active reservation matches code: <strong>' . escape($code) . '</strong>' : 'No reservation code was provided.' ?>
+                <?= $code !== '' ? 'No active booking matches confirmation code: <strong>' . escape($code) . '</strong>' : 'No reservation code was provided.' ?>
               </p>
 
               <!-- Lookup Form -->
-              <form action="/reservation/view" method="GET" class="mb-4">
+              <form action="/reservation/view" method="GET" class="mb-4" style="max-width: 440px; margin: 0 auto;">
                 <div class="input-group">
-                  <input type="text" name="code" class="form-control" placeholder="Enter confirmation code (e.g. BH-XXXXXX)" value="<?= escape($code) ?>" required>
-                  <button class="btn btn-primary" type="submit">
-                    <i class="bi bi-search"></i> Search
+                  <input type="text" name="code" class="form-control" placeholder="e.g. BH-XXXXXX" value="<?= escape($code) ?>" required>
+                  <button class="btn btn-accent" type="submit">
+                    <i class="bi bi-search me-1"></i> Search
                   </button>
                 </div>
               </form>
 
               <div class="d-flex justify-content-center gap-2">
-                <a href="/reservation" class="btn btn-accent">
-                  <i class="bi bi-calendar-plus"></i> Make a Reservation
+                <a href="/reservation" class="btn btn-outline-secondary">
+                  <i class="bi bi-calendar-plus"></i> New Reservation
                 </a>
                 <a href="/" class="btn btn-outline-secondary">
                   <i class="bi bi-house"></i> Home
