@@ -13,6 +13,7 @@ Thumbs.db
 *.swo
 
 # Sensitive files
+config/database.php
 p_001/config/database.php
 p_001/migrate.php
 

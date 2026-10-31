@@ -28,7 +28,8 @@ class Router {
 
         foreach ($this->routes as $route) {
             $params = [];
-            if ($route['method'] === $method && $this->match($route['path'], $uri, $params)) {
+            $methodMatches = ($route['method'] === $method) || ($method === 'HEAD' && $route['method'] === 'GET');
+            if ($methodMatches && $this->match($route['path'], $uri, $params)) {
                 if (is_callable($route['callback'])) {
                     call_user_func_array($route['callback'], $params);
                     return;

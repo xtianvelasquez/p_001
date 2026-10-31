@@ -13,7 +13,6 @@
 <body>
 
   <?php
-  include __DIR__ . "/../../Frontend/Views/extras/header.php";
   include __DIR__ . "/../../Frontend/Views/extras/nav_index.php";
   ?>
 

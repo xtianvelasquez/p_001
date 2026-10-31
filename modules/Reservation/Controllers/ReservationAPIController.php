@@ -51,14 +51,14 @@ class ReservationAPIController {
             return "Please enter a valid Philippine contact number.";
         }
 
-        $age = filter_var($data['age'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 18, 'max_range' => 80]]);
+        $age = filter_var($data['age'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 18, 'max_range' => 60]]);
         if ($age === false) {
-            return "Age must be between 18 and 80.";
+            return "Age must be between 18 and 60.";
         }
 
-        $guestCount = filter_var($data['numGuest'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 13]]);
+        $guestCount = filter_var($data['numGuest'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 12]]);
         if ($guestCount === false) {
-            return "Guest count must be between 1 and 13.";
+            return "Guest count must be between 1 and 12.";
         }
 
         $reservationDate = \DateTime::createFromFormat('!Y-m-d', $data['reserveDate']);
@@ -177,7 +177,7 @@ class ReservationAPIController {
 
         $date = $this->cleanString($_GET['date'] ?? '', 10);
         $time = $this->cleanString($_GET['time'] ?? '', 10);
-        $guests = filter_var($_GET['guests'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 13]]);
+        $guests = filter_var($_GET['guests'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 12]]);
 
         if (!$date || !$time || $guests === false) {
             http_response_code(422);

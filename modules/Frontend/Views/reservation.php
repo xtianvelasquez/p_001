@@ -28,7 +28,6 @@ $timeSlots = $settingsModel->generateTimeSlots($siteSettings['opening_time'] ?? 
 </head>
 <body>
   <?php
-  include __DIR__ . "/extras/header.php";
   include __DIR__ . "/extras/nav_index.php";
   ?>
 
@@ -99,7 +98,7 @@ $timeSlots = $settingsModel->generateTimeSlots($siteSettings['opening_time'] ?? 
                 </div>
                 <div class="col-md-4">
                   <label for="numGuest" class="form-label small fw-semibold text-secondary">Number of Guests *</label>
-                  <input type="number" name="numGuest" id="numGuest" min="1" max="13" class="form-control" placeholder="1 - 13" required>
+                  <input type="number" name="numGuest" id="numGuest" min="1" max="12" class="form-control" placeholder="1 - 12" required>
                 </div>
               </div>
             </div>
@@ -156,7 +155,7 @@ $timeSlots = $settingsModel->generateTimeSlots($siteSettings['opening_time'] ?? 
                 </div>
                 <div class="col-md-2">
                   <label for="age" class="form-label small fw-semibold text-secondary">Age *</label>
-                  <input type="number" name="age" id="age" min="18" max="80" class="form-control" placeholder="18-80" required>
+                  <input type="number" name="age" id="age" min="18" max="60" class="form-control" placeholder="18-60" required>
                 </div>
                 <div class="col-md-6">
                   <label for="contactNum" class="form-label small fw-semibold text-secondary">Contact Number *</label>

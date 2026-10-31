@@ -28,15 +28,81 @@ function escape(mixed $value): string {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
     @media print {
-      body {
+      @page {
+        size: portrait;
+        margin: 10mm;
+      }
+      html, body {
         background: #ffffff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .no-print {
         display: none !important;
       }
+      main {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      .container-lg, .col-12, .col-md-10, .col-lg-8 {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .col-pass-details {
+        width: 58% !important;
+        flex: 0 0 58% !important;
+        max-width: 58% !important;
+      }
+      .col-pass-qr {
+        width: 42% !important;
+        flex: 0 0 42% !important;
+        max-width: 42% !important;
+      }
       .bento-card {
         box-shadow: none !important;
-        border: 1px solid #ccc !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 14px !important;
+        padding: 1.25rem !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .bento-card-dark {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border-color: #0f172a !important;
+        padding: 1.25rem 1.5rem !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .bento-card-dark h1 {
+        font-size: 1.35rem !important;
+        margin-bottom: 4px !important;
+      }
+      .bento-card-dark p {
+        font-size: 0.82rem !important;
+        margin-bottom: 8px !important;
+      }
+      .bento-card-dark .font-monospace {
+        font-size: 1.2rem !important;
+        padding: 4px 16px !important;
+      }
+      .detail-tile {
+        padding: 0.65rem 0.85rem !important;
+      }
+      #qrcodeView {
+        padding: 6px !important;
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      #qrcodeView img, #qrcodeView canvas {
+        width: 125px !important;
+        height: 125px !important;
+        margin: 0 auto !important;
       }
     }
   </style>
@@ -98,7 +164,7 @@ function escape(mixed $value): string {
               </div>
 
               <!-- Bento Card 2: Guest & Visit Details (Col 7) -->
-              <div class="col-md-7">
+              <div class="col-md-7 col-pass-details">
                 <div class="bento-card p-4 h-100 d-flex flex-column justify-content-between">
                   <div>
                     <span class="section-kicker">Reservation Details</span>
@@ -106,13 +172,13 @@ function escape(mixed $value): string {
 
                     <div class="row g-2 mb-3">
                       <div class="col-6">
-                        <div class="p-3 bg-light rounded-3">
+                        <div class="p-3 bg-light rounded-3 detail-tile">
                           <div class="small text-secondary">Date</div>
                           <div class="fw-bold text-dark"><?= escape($formattedDate) ?></div>
                         </div>
                       </div>
                       <div class="col-6">
-                        <div class="p-3 bg-light rounded-3">
+                        <div class="p-3 bg-light rounded-3 detail-tile">
                           <div class="small text-secondary">Time Slot</div>
                           <div class="fw-bold text-dark"><?= escape($formattedTime) ?></div>
                         </div>
@@ -121,14 +187,14 @@ function escape(mixed $value): string {
 
                     <div class="row g-2 mb-3">
                       <div class="col-6">
-                        <div class="p-3 bg-light rounded-3">
+                        <div class="p-3 bg-light rounded-3 detail-tile">
                           <div class="small text-secondary">Table & Level</div>
                           <div class="fw-bold text-dark"><?= escape($reservation['reservation_table']) ?></div>
                           <div class="small text-muted"><?= escape($reservation['reservation_floor']) ?></div>
                         </div>
                       </div>
                       <div class="col-6">
-                        <div class="p-3 bg-light rounded-3">
+                        <div class="p-3 bg-light rounded-3 detail-tile">
                           <div class="small text-secondary">Party Size</div>
                           <div class="fw-bold text-dark"><?= escape($reservation['num_guest']) ?> Guest<?= (int)$reservation['num_guest'] > 1 ? 's' : '' ?></div>
                         </div>
@@ -136,7 +202,7 @@ function escape(mixed $value): string {
                     </div>
 
                     <?php if (!empty($reservation['occasion']) || !empty($reservation['special_request'])): ?>
-                      <div class="p-3 bg-light rounded-3 mb-2 small">
+                      <div class="p-3 bg-light rounded-3 mb-2 small detail-tile">
                         <?php if (!empty($reservation['occasion'])): ?>
                           <div><strong>Occasion:</strong> <?= escape($reservation['occasion']) ?></div>
                         <?php endif; ?>
@@ -155,7 +221,7 @@ function escape(mixed $value): string {
               </div>
 
               <!-- Bento Card 3: QR Code & Verification (Col 5) -->
-              <div class="col-md-5">
+              <div class="col-md-5 col-pass-qr">
                 <div class="bento-card p-4 h-100 d-flex flex-column justify-content-between text-center">
                   <div>
                     <span class="section-kicker">Scannable Proof</span>
