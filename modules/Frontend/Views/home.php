@@ -56,37 +56,46 @@ $floorsLabel = $floorsCount > 0 ? ($floorsCount . ' Floor' . ($floorsCount > 1 ?
         
         <!-- Bento Cell 1: Main Hero Banner (Col 8) -->
         <div class="col-lg-8">
-          <div class="bento-card bento-card-dark p-4 p-md-5 h-100 d-flex flex-column justify-content-between position-relative overflow-hidden">
-            <div class="position-relative z-1">
-              <div class="d-flex align-items-center gap-2 mb-3">
-                <span class="bento-tag">
-                  <i class="bi bi-patch-check-fill text-warning"></i> Table Reservations
-                </span>
-                <?php if ($isOpenToday): ?>
-                  <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-semibold small">
-                    <span class="d-inline-block rounded-circle bg-success me-1" style="width:8px; height:8px;"></span> Open Today
-                  </span>
-                <?php else: ?>
-                  <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-semibold small">
-                    <i class="bi bi-door-closed me-1"></i> Closed Today
-                  </span>
-                <?php endif; ?>
+          <div class="bento-card bento-card-dark p-4 p-md-5 h-100 position-relative overflow-hidden">
+            <div class="row align-items-center h-100 g-4">
+              <div class="col-md-7 col-xl-7 d-flex flex-column justify-content-between h-100 position-relative z-1">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="bento-tag">
+                      <i class="bi bi-patch-check-fill text-warning"></i> Table Reservations
+                    </span>
+                    <?php if ($isOpenToday): ?>
+                      <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-semibold small">
+                        <span class="d-inline-block rounded-circle bg-success me-1" style="width:8px; height:8px;"></span> Open Today
+                      </span>
+                    <?php else: ?>
+                      <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-semibold small">
+                        <i class="bi bi-door-closed me-1"></i> Closed Today
+                      </span>
+                    <?php endif; ?>
+                  </div>
+                  <h1 class="display-6 fw-bold text-white mb-3">
+                    Reserve the right table for the right moment.
+                  </h1>
+                  <p class="lead text-light opacity-75 mb-4 fs-6">
+                    <?= $tagline ?>
+                  </p>
+                </div>
+                
+                <div class="d-flex flex-wrap gap-2 pt-2">
+                  <a href="/reservation" class="btn btn-accent btn-lg px-4 shadow-sm">
+                    <i class="bi bi-calendar-check me-1"></i> Book a Table
+                  </a>
+                  <a href="#about_us" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-info-circle me-1"></i> Learn More
+                  </a>
+                </div>
               </div>
-              <h1 class="display-6 fw-bold text-white mb-3">
-                Reserve the right table for the right moment.
-              </h1>
-              <p class="lead text-light opacity-75 mb-4 fs-6" style="max-width: 580px;">
-                <?= $tagline ?>
-              </p>
-            </div>
-            
-            <div class="position-relative z-1 d-flex flex-wrap gap-2 pt-2">
-              <a href="/reservation" class="btn btn-accent btn-lg px-4 shadow-sm">
-                <i class="bi bi-calendar-check me-1"></i> Book a Table
-              </a>
-              <a href="#about_us" class="btn btn-outline-light btn-lg px-4">
-                <i class="bi bi-info-circle me-1"></i> Learn More
-              </a>
+
+              <!-- Minimal unDraw Dining Illustration -->
+              <div class="col-md-5 col-xl-5 d-none d-md-flex align-items-center justify-content-center text-center">
+                <img src="/assets/images/illustrations/undraw_dining.svg" alt="Dining Experience Illustration" class="img-fluid" style="max-height: 240px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));">
+              </div>
             </div>
           </div>
         </div>

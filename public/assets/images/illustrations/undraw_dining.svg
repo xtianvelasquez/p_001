@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="warmAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="softFloor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadows (unDraw style floor ellipse) -->
+  <ellipse cx="300" cy="405" rx="240" ry="18" fill="url(#softFloor)" />
+  <ellipse cx="170" cy="408" rx="70" ry="9" fill="#0f172a" opacity="0.08" />
+  <ellipse cx="430" cy="408" rx="70" ry="9" fill="#0f172a" opacity="0.08" />
+  <ellipse cx="300" cy="412" rx="90" ry="8" fill="#0f172a" opacity="0.07" />
+
+  <!-- Backdrop / Ambient Floating Elements -->
+  <circle cx="90" cy="90" r="32" fill="#fef3c7" opacity="0.6" />
+  <circle cx="510" cy="110" r="22" fill="#fef3c7" opacity="0.5" />
+  <path d="M 490,70 Q 500,50 520,65 Q 540,80 520,95 Z" fill="#b45309" opacity="0.12" />
+  <path d="M 75,150 Q 60,170 80,185 Q 100,200 115,175 Z" fill="#f59e0b" opacity="0.1" />
+
+  <!-- Hanging Pendant Lamp -->
+  <line x1="300" y1="0" x2="300" y2="110" stroke="#64748b" stroke-width="2.5" />
+  <path d="M 270,140 Q 300,105 330,140 Z" fill="#0f172a" />
+  <ellipse cx="300" cy="140" rx="30" ry="7" fill="#1e293b" />
+  <ellipse cx="300" cy="142" rx="14" ry="4" fill="#fbbf24" />
+  <!-- Warm glow from lamp -->
+  <polygon points="280,144 320,144 380,260 220,260" fill="#fef3c7" opacity="0.25" />
+
+  <!-- RESTAURANT TABLE -->
+  <!-- Table Base & Legs -->
+  <path d="M 292,270 L 292,398 L 270,410 L 330,410 L 308,398 L 308,270 Z" fill="#334155" />
+  <!-- Table Top -->
+  <ellipse cx="300" cy="275" rx="125" ry="16" fill="#cbd5e1" />
+  <ellipse cx="300" cy="271" rx="125" ry="15" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5" />
+
+  <!-- DINING ITEMS ON TABLE -->
+  <!-- Center vase & flower -->
+  <path d="M 295,245 C 292,255 290,262 300,265 C 310,262 308,255 305,245 Z" fill="#b45309" />
+  <path d="M 300,245 Q 295,230 300,220" stroke="#059669" stroke-width="2" fill="none" />
+  <circle cx="300" cy="218" r="5" fill="#f59e0b" />
+  <circle cx="295" cy="222" r="3.5" fill="#f59e0b" opacity="0.8" />
+  <circle cx="305" cy="222" r="3.5" fill="#f59e0b" opacity="0.8" />
+  <!-- Plates -->
+  <ellipse cx="230" cy="272" rx="24" ry="5.5" fill="#e2e8f0" />
+  <ellipse cx="230" cy="270" rx="20" ry="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <ellipse cx="370" cy="272" rx="24" ry="5.5" fill="#e2e8f0" />
+  <ellipse cx="370" cy="270" rx="20" ry="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <!-- Glasses with BenHub amber beverage -->
+  <path d="M 262,250 L 268,250 L 266,260 L 264,260 Z" fill="#94a3b8" />
+  <path d="M 261,242 L 269,242 L 268,250 L 262,250 Z" fill="#d97706" opacity="0.75" />
+  <ellipse cx="265" cy="260" rx="4" ry="1.5" fill="#94a3b8" />
+  <path d="M 336,250 L 342,250 L 340,260 L 338,260 Z" fill="#94a3b8" />
+  <path d="M 335,242 L 343,242 L 342,250 L 336,250 Z" fill="#d97706" opacity="0.75" />
+  <ellipse cx="339" cy="260" rx="4" ry="1.5" fill="#94a3b8" />
+
+  <!-- LEFT DINER (unDraw Character 1) -->
+  <!-- Chair Left -->
+  <path d="M 140,230 Q 140,200 165,200 L 165,340 L 140,340 Z" fill="#334155" opacity="0.3" />
+  <line x1="145" y1="330" x2="135" y2="405" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+  <line x1="175" y1="330" x2="170" y2="405" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+  <!-- Legs & Pants -->
+  <path d="M 160,320 L 210,325 L 215,395 L 195,395 L 192,345 L 160,340 Z" fill="#1e293b" />
+  <!-- Shoes -->
+  <ellipse cx="218" cy="398" rx="14" ry="6" fill="#0f172a" />
+  <!-- Body/Torso in Primary Amber Tone -->
+  <path d="M 160,225 C 175,225 195,235 200,265 L 190,325 L 152,325 L 148,255 Z" fill="url(#warmAmber)" />
+  <!-- Head & Hair (Left Character) -->
+  <ellipse cx="178" cy="180" rx="15" ry="18" fill="#ffdbb4" />
+  <!-- Hair: unDraw modern stylish swept hair -->
+  <path d="M 162,178 C 160,160 175,150 190,152 C 196,153 200,160 195,168 C 190,172 188,170 185,164 C 178,160 166,168 165,182 Z" fill="#0f172a" />
+  <!-- Neck -->
+  <rect x="173" y="196" width="9" height="10" fill="#ffdbb4" rx="2" />
+  <!-- Arm & Gesture (Holding napkin/menu or resting on table) -->
+  <path d="M 175,235 Q 210,245 235,268" stroke="url(#warmAmber)" stroke-width="14" stroke-linecap="round" fill="none" />
+  <circle cx="236" cy="268" r="6" fill="#ffdbb4" />
+
+  <!-- RIGHT DINER (unDraw Character 2) -->
+  <!-- Chair Right -->
+  <path d="M 455,230 Q 455,200 430,200 L 430,340 L 455,340 Z" fill="#334155" opacity="0.3" />
+  <line x1="450" y1="330" x2="460" y2="405" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+  <line x1="420" y1="330" x2="425" y2="405" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+  <!-- Legs & Pants -->
+  <path d="M 435,320 L 385,325 L 380,395 L 400,395 L 403,345 L 435,340 Z" fill="#334155" />
+  <!-- Shoes -->
+  <ellipse cx="376" cy="398" rx="14" ry="6" fill="#0f172a" />
+  <!-- Body/Torso (Navy slate with warm scarf or accent) -->
+  <path d="M 435,225 C 420,225 400,235 395,265 L 405,325 L 443,325 L 447,255 Z" fill="#0f172a" />
+  <!-- Scarf / Accent Collar in Amber -->
+  <path d="M 412,223 C 418,228 428,228 434,223 L 428,245 Z" fill="#f59e0b" />
+  <!-- Head & Hair (Right Character) -->
+  <ellipse cx="418" cy="180" rx="15" ry="18" fill="#e0a97a" />
+  <!-- Hair: unDraw modern bun / styled hair -->
+  <path d="M 434,178 C 438,160 422,150 406,152 C 398,154 394,162 400,172 C 404,178 412,168 420,165 C 428,162 432,172 432,182 Z" fill="#1e293b" />
+  <circle cx="433" cy="155" r="9" fill="#1e293b" />
+  <!-- Neck -->
+  <rect x="414" y="196" width="9" height="10" fill="#e0a97a" rx="2" />
+  <!-- Arm & Toasting Gesture -->
+  <path d="M 420,235 Q 380,240 360,250" stroke="#0f172a" stroke-width="14" stroke-linecap="round" fill="none" />
+  <circle cx="358" cy="250" r="6" fill="#e0a97a" />
+  <!-- Floating wine glass in hand -->
+  <path d="M 353,235 L 361,235 L 359,246 L 355,246 Z" fill="#b45309" opacity="0.85" />
+  <line x1="357" y1="246" x2="357" y2="252" stroke="#64748b" stroke-width="1.5" />
+
+  <!-- Celebratory Accent Sparkles (unDraw style clean stars) -->
+  <path d="M 298,175 Q 300,168 302,175 Q 309,177 302,179 Q 300,186 298,179 Q 291,177 298,175 Z" fill="#fbbf24" />
+  <path d="M 320,195 Q 321,190 323,195 Q 328,196 323,197 Q 321,202 320,197 Q 315,196 320,195 Z" fill="#f59e0b" opacity="0.8" />
+  <path d="M 280,192 Q 281,188 283,192 Q 287,193 283,194 Q 281,198 280,194 Q 276,193 280,192 Z" fill="#f59e0b" opacity="0.7" />
+</svg>

@@ -184,10 +184,10 @@ function escape(mixed $value): string {
             </div>
 
           <?php else: ?>
-            <!-- Not Found Bento State -->
+            <!-- Not Found Bento State with Tasteful unDraw Empty Illustration -->
             <div class="bento-card p-4 p-md-5 text-center">
-              <div class="bento-icon-box mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.6rem;">
-                <i class="bi bi-search"></i>
+              <div class="mb-4 d-flex justify-content-center">
+                <img src="/assets/images/illustrations/undraw_empty_search.svg" alt="Reservation Not Found" class="img-fluid" style="max-height: 200px;">
               </div>
               <h2 class="h4 fw-bold mb-2">Reservation Not Found</h2>
               <p class="text-secondary mb-4">

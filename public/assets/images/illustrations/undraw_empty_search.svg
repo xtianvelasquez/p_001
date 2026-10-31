@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="amberPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="searchFloor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadows -->
+  <ellipse cx="250" cy="330" rx="190" ry="14" fill="url(#searchFloor)" />
+  <ellipse cx="190" cy="332" rx="45" ry="7" fill="#0f172a" opacity="0.08" />
+  <ellipse cx="330" cy="332" rx="65" ry="7" fill="#0f172a" opacity="0.08" />
+
+  <!-- Backdrop Decorative unDraw Blobs -->
+  <circle cx="100" cy="90" r="28" fill="#fef3c7" opacity="0.7" />
+  <circle cx="390" cy="70" r="18" fill="#fef3c7" opacity="0.8" />
+  <path d="M 370,120 Q 380,105 395,115 Q 410,125 395,135 Z" fill="#b45309" opacity="0.15" />
+
+  <!-- Floating Missing Reservation Ticket / Pass (Right Side) -->
+  <g transform="translate(250, 60)">
+    <!-- Shadow for Card -->
+    <rect x="5" y="5" width="160" height="210" rx="12" fill="#0f172a" opacity="0.06" />
+    <!-- Pass Card Base -->
+    <rect x="0" y="0" width="160" height="210" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+    <!-- Pass Top Header Strip -->
+    <path d="M 0,12 Q 0,0 12,0 L 148,0 Q 160,0 160,12 L 160,42 L 0,42 Z" fill="#0f172a" />
+    <circle cx="20" cy="21" r="5" fill="#f59e0b" />
+    <rect x="35" y="18" width="55" height="6" rx="3" fill="#ffffff" opacity="0.7" />
+
+    <!-- Dotted / Missing Entry Lines -->
+    <rect x="20" y="65" width="80" height="8" rx="4" fill="#cbd5e1" />
+    <rect x="20" y="85" width="120" height="7" rx="3.5" fill="#e2e8f0" />
+    <rect x="20" y="102" width="100" height="7" rx="3.5" fill="#e2e8f0" />
+    
+    <!-- Cut-out notch on side (ticket effect) -->
+    <circle cx="0" cy="130" r="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <circle cx="160" cy="130" r="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <line x1="15" y1="130" x2="145" y2="130" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4" />
+
+    <!-- Big Soft Question Mark / Not Found indicator -->
+    <circle cx="80" cy="168" r="22" fill="#fef3c7" />
+    <text x="80" y="177" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="bold" fill="#b45309" text-anchor="middle">?</text>
+  </g>
+
+  <!-- SEARCHER CHARACTER (unDraw Style Person on Left) -->
+  <!-- Legs / Pants -->
+  <path d="M 160,205 L 155,325 L 175,325 L 180,230 L 195,230 L 202,325 L 222,325 L 210,205 Z" fill="#0f172a" />
+  <!-- Shoes -->
+  <ellipse cx="160" cy="328" rx="14" ry="5" fill="#334155" />
+  <ellipse cx="215" cy="328" rx="14" ry="5" fill="#334155" />
+
+  <!-- Body / Torso in Warm Amber -->
+  <path d="M 165,125 C 150,125 140,150 145,210 L 205,210 C 210,150 200,125 185,125 Z" fill="url(#amberPrimary)" />
+
+  <!-- Head & Hair -->
+  <ellipse cx="180" cy="85" rx="16" ry="19" fill="#ffdbb4" />
+  <!-- Minimalist unDraw Hair -->
+  <path d="M 164,82 C 160,65 174,55 192,57 C 200,58 202,66 198,75 C 192,72 188,75 185,70 C 178,66 168,72 166,85 Z" fill="#1e293b" />
+  <!-- Neck -->
+  <rect x="175" y="102" width="10" height="12" fill="#ffdbb4" rx="2" />
+
+  <!-- Left Arm (Resting at waist) -->
+  <path d="M 150,135 Q 135,160 148,185" stroke="url(#amberPrimary)" stroke-width="12" stroke-linecap="round" fill="none" />
+  <circle cx="150" cy="186" r="5" fill="#ffdbb4" />
+
+  <!-- Right Arm (Extended holding Magnifying Glass) -->
+  <path d="M 195,135 Q 230,145 255,160" stroke="url(#amberPrimary)" stroke-width="12" stroke-linecap="round" fill="none" />
+  <circle cx="258" cy="162" r="5" fill="#ffdbb4" />
+
+  <!-- MAGNIFYING GLASS -->
+  <!-- Handle -->
+  <line x1="258" y1="162" x2="275" y2="185" stroke="#334155" stroke-width="6" stroke-linecap="round" />
+  <!-- Rim -->
+  <circle cx="245" cy="145" r="32" fill="#ffffff" stroke="#b45309" stroke-width="5" />
+  <circle cx="245" cy="145" r="26" fill="#fef3c7" opacity="0.4" />
+  <!-- Glass Reflection -->
+  <path d="M 230,132 Q 248,125 258,138" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" />
+
+  <!-- Floating Sparkles -->
+  <path d="M 120,60 Q 122,53 124,60 Q 131,62 124,64 Q 122,71 120,64 Q 113,62 120,60 Z" fill="#f59e0b" />
+  <path d="M 440,190 Q 441,185 443,190 Q 448,191 443,192 Q 441,197 440,192 Q 435,191 440,190 Z" fill="#fbbf24" />
+</svg>
