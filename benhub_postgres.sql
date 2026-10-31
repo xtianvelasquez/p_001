@@ -80,6 +80,26 @@ CREATE TABLE terms_conditions (
     tc_description VARCHAR(1000)
 );
 
+CREATE TABLE restaurant_settings (
+    setting_key VARCHAR(50) PRIMARY KEY,
+    setting_value TEXT NOT NULL,
+    description VARCHAR(255),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO restaurant_settings (setting_key, setting_value, description) VALUES
+('restaurant_name', 'BenHub', 'Restaurant display brand name'),
+('tagline', 'Reserve the right table for the right moment with clear availability, instant confirmation, and a smoother dining experience.', 'Hero subtitle/tagline'),
+('operating_days', 'Monday - Saturday', 'Operating schedule days'),
+('opening_time', '10:00 AM', 'Daily opening time'),
+('closing_time', '6:00 PM', 'Daily closing time'),
+('is_open_today', 'true', 'Whether the restaurant is currently accepting bookings / open'),
+('phone_number', '+1 (555) 555-1234', 'Primary contact phone number'),
+('email_address', 'info@example.com', 'Primary contact email address'),
+('street_address', '1234 Imaginary Street', 'Physical street address'),
+('city_address', 'Fictionville, Manila, Philippines', 'City and country location'),
+('map_url', '#', 'External map link');
+
 INSERT INTO terms_conditions (tc_num, tc_title, tc_description) VALUES
 (1, 'Customer Arrival', 'To provide the highest level of service for all of our customers, we kindly ask that you arrive prepared to be seated at the time of your reservation. After being detained for ten minutes, the table might be given to another customer.'),
 (2, 'Notification', 'We will notify you by email or text message a day before your reservation about your pending reservation at our restaurant.'),

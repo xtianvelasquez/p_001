@@ -45,6 +45,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
               <i class="bi bi-grid-3x3-gap-fill me-1"></i> Seating Management
             </button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link px-3 py-2 fw-semibold" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settingsPane" type="button" role="tab" aria-controls="settingsPane" aria-selected="false">
+              <i class="bi bi-sliders me-1"></i> Restaurant Settings
+            </button>
+          </li>
         </ul>
 
         <button id="logoutBtn" class="btn btn-outline-danger btn-sm px-3 py-2">
@@ -273,6 +278,93 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                   <tr><td colspan="7" class="text-center py-4">Loading seatings...</td></tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 3: RESTAURANT SETTINGS ==================== -->
+        <div class="tab-pane fade" id="settingsPane" role="tabpanel" aria-labelledby="settings-tab">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="bento-card p-4 p-md-5">
+                <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom">
+                  <div>
+                    <span class="bento-tag mb-1">Configuration</span>
+                    <h2 class="h5 fw-bold mb-0">Restaurant Profile & Operating Details</h2>
+                    <div class="small text-secondary">These settings automatically update the public website, headers, contact info, and booking limits.</div>
+                  </div>
+                  <span class="badge bg-light text-dark border px-3 py-2">
+                    <i class="bi bi-broadcast text-success me-1"></i> Live Sync
+                  </span>
+                </div>
+
+                <form id="restaurantSettingsForm">
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                      <label for="setting_restaurant_name" class="form-label small fw-semibold">Restaurant Name *</label>
+                      <input type="text" class="form-control" id="setting_restaurant_name" required maxlength="100">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="setting_is_open_today" class="form-label small fw-semibold">Current Operating Status</label>
+                      <select class="form-select" id="setting_is_open_today">
+                        <option value="true">Open Today (Accepting reservations & walk-ins)</option>
+                        <option value="false">Closed Today (Show "Closed Today" badge)</option>
+                      </select>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="setting_tagline" class="form-label small fw-semibold">Hero Tagline / Subtitle</label>
+                      <textarea class="form-control" id="setting_tagline" rows="2" maxlength="500"></textarea>
+                    </div>
+                  </div>
+
+                  <h3 class="h6 fw-bold text-dark pt-3 border-top mb-3">Operating Hours & Schedule</h3>
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                      <label for="setting_operating_days" class="form-label small fw-semibold">Operating Days</label>
+                      <input type="text" class="form-control" id="setting_operating_days" placeholder="e.g. Monday - Saturday" maxlength="100">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="setting_opening_time" class="form-label small fw-semibold">Opening Time</label>
+                      <input type="text" class="form-control" id="setting_opening_time" placeholder="e.g. 10:00 AM" maxlength="20">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="setting_closing_time" class="form-label small fw-semibold">Closing Time</label>
+                      <input type="text" class="form-control" id="setting_closing_time" placeholder="e.g. 6:00 PM" maxlength="20">
+                    </div>
+                  </div>
+
+                  <h3 class="h6 fw-bold text-dark pt-3 border-top mb-3">Contact & Location Information</h3>
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                      <label for="setting_phone_number" class="form-label small fw-semibold">Phone Number</label>
+                      <input type="text" class="form-control" id="setting_phone_number" placeholder="+1 (555) 555-1234" maxlength="50">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="setting_email_address" class="form-label small fw-semibold">Email Address</label>
+                      <input type="email" class="form-control" id="setting_email_address" placeholder="info@example.com" maxlength="100">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="setting_street_address" class="form-label small fw-semibold">Street Address</label>
+                      <input type="text" class="form-control" id="setting_street_address" placeholder="1234 Imaginary Street" maxlength="200">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="setting_city_address" class="form-label small fw-semibold">City, Province / Country</label>
+                      <input type="text" class="form-control" id="setting_city_address" placeholder="Fictionville, Manila, Philippines" maxlength="200">
+                    </div>
+                    <div class="col-12">
+                      <label for="setting_map_url" class="form-label small fw-semibold">Map URL (Optional link)</label>
+                      <input type="text" class="form-control" id="setting_map_url" placeholder="https://maps.google.com/..." maxlength="500">
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end pt-3 border-top">
+                    <button type="submit" class="btn btn-accent px-4 py-2" id="saveSettingsBtn">
+                      <i class="bi bi-save me-1"></i> Save Restaurant Settings
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -907,6 +999,67 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     });
 
     // ==========================================
+    // RESTAURANT SETTINGS LOGIC
+    // ==========================================
+    const settingsForm = document.getElementById('restaurantSettingsForm');
+
+    function loadSettings() {
+      fetch('/api/settings')
+        .then(res => res.json())
+        .then(res => {
+          if (res.status === 'success') {
+            const s = res.data.settings || {};
+            document.getElementById('setting_restaurant_name').value = s.restaurant_name || '';
+            document.getElementById('setting_tagline').value = s.tagline || '';
+            document.getElementById('setting_operating_days').value = s.operating_days || '';
+            document.getElementById('setting_opening_time').value = s.opening_time || '';
+            document.getElementById('setting_closing_time').value = s.closing_time || '';
+            document.getElementById('setting_is_open_today').value = (s.is_open_today === 'false') ? 'false' : 'true';
+            document.getElementById('setting_phone_number').value = s.phone_number || '';
+            document.getElementById('setting_email_address').value = s.email_address || '';
+            document.getElementById('setting_street_address').value = s.street_address || '';
+            document.getElementById('setting_city_address').value = s.city_address || '';
+            document.getElementById('setting_map_url').value = s.map_url || '';
+          }
+        })
+        .catch(() => showFeedback('danger', 'Could not load restaurant settings.'));
+    }
+
+    settingsForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const payload = {
+        restaurant_name: document.getElementById('setting_restaurant_name').value.trim(),
+        tagline: document.getElementById('setting_tagline').value.trim(),
+        operating_days: document.getElementById('setting_operating_days').value.trim(),
+        opening_time: document.getElementById('setting_opening_time').value.trim(),
+        closing_time: document.getElementById('setting_closing_time').value.trim(),
+        is_open_today: document.getElementById('setting_is_open_today').value,
+        phone_number: document.getElementById('setting_phone_number').value.trim(),
+        email_address: document.getElementById('setting_email_address').value.trim(),
+        street_address: document.getElementById('setting_street_address').value.trim(),
+        city_address: document.getElementById('setting_city_address').value.trim(),
+        map_url: document.getElementById('setting_map_url').value.trim()
+      };
+
+      fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success') {
+          showFeedback('success', res.message);
+        } else {
+          showFeedback('danger', res.message || 'Error saving settings.');
+        }
+      })
+      .catch(() => showFeedback('danger', 'Network error saving settings.'));
+    });
+
+    document.getElementById('settings-tab').addEventListener('shown.bs.tab', loadSettings);
+
+    // ==========================================
     // LOGOUT
     // ==========================================
     document.getElementById('logoutBtn').addEventListener('click', function() {
@@ -919,6 +1072,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     // Initial load
     loadReservations();
     loadSeatings();
+    loadSettings();
   </script>
 </body>
 </html>

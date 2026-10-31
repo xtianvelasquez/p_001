@@ -1,9 +1,23 @@
+<?php
+$settingsModel = new \Modules\Reservation\Models\SettingsModel();
+$siteSettings = $settingsModel->getAllSettings();
+$activeFloors = $settingsModel->getActiveFloorsSummary();
+
+$restName = htmlspecialchars($siteSettings['restaurant_name'] ?? 'BenHub', ENT_QUOTES, 'UTF-8');
+$openingTime = htmlspecialchars($siteSettings['opening_time'] ?? '10:00 AM', ENT_QUOTES, 'UTF-8');
+$closingTime = htmlspecialchars($siteSettings['closing_time'] ?? '6:00 PM', ENT_QUOTES, 'UTF-8');
+$phoneNumber = htmlspecialchars($siteSettings['phone_number'] ?? '+1 (555) 555-1234', ENT_QUOTES, 'UTF-8');
+$phoneClean = preg_replace('/[^\d\+]/', '', $phoneNumber);
+
+$floorsCount = count($activeFloors);
+$floorsLabel = $floorsCount > 0 ? ($floorsCount . ' Floor' . ($floorsCount > 1 ? 's' : '')) : 'all levels';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BenHub: Reservation</title>
+  <title><?= $restName ?>: Reservation</title>
   <link rel="icon" type="image/png" href="/assets/images/benhub-icon.png">
   <link rel="shortcut icon" href="/assets/images/benhub-icon.png">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?v=5.3">
@@ -28,12 +42,12 @@
             </span>
             <h1 class="h2 fw-bold text-white mb-2">Book a table with confidence</h1>
             <p class="text-light opacity-75 mb-0" style="max-width: 600px;">
-              Select your schedule, review real-time seating availability across our 3 floors, and secure your dining spot.
+              Select your schedule, review real-time seating availability across <?= $floorsLabel ?>, and secure your dining spot.
             </p>
           </div>
           <div class="text-md-end">
             <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-semibold">
-              <i class="bi bi-clock-history text-warning me-1"></i> 10:00 AM – 6:00 PM
+              <i class="bi bi-clock-history text-warning me-1"></i> <?= $openingTime ?> – <?= $closingTime ?>
             </span>
           </div>
         </div>
@@ -229,8 +243,8 @@
 
             <div class="p-3 bg-white border rounded-3 text-center">
               <div class="small text-muted mb-1">Need help or private booking?</div>
-              <a href="tel:+15555551234" class="text-decoration-none fw-semibold small text-dark">
-                <i class="bi bi-telephone text-primary me-1"></i> +1 (555) 555-1234
+              <a href="tel:<?= $phoneClean ?>" class="text-decoration-none fw-semibold small text-dark">
+                <i class="bi bi-telephone text-primary me-1"></i> <?= $phoneNumber ?>
               </a>
             </div>
           </div>

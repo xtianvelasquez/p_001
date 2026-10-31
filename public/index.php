@@ -49,6 +49,8 @@ $router->add('GET', '/terms', function() {
 });
 
 // --- API Routes ---
+$router->add('GET', '/api/settings', ['Modules\Reservation\Controllers\SettingsAPIController', 'index']);
+$router->add('POST', '/api/settings', ['Modules\Reservation\Controllers\SettingsAPIController', 'update']);
 $router->add('GET', '/api/seatings', ['Modules\Reservation\Controllers\SeatingAPIController', 'index']);
 $router->add('POST', '/api/seatings', ['Modules\Reservation\Controllers\SeatingAPIController', 'create']);
 $router->add('PUT', '/api/seatings/{id}', ['Modules\Reservation\Controllers\SeatingAPIController', 'update']);
