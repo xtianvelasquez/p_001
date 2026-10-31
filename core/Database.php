@@ -9,7 +9,11 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        $config = require __DIR__ . '/../config/database.php';
+        $configFile = __DIR__ . '/../config/database.php';
+        if (!file_exists($configFile)) {
+            $configFile = __DIR__ . '/../config/database.php.example';
+        }
+        $config = require $configFile;
         
         $dsn = "pgsql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
         $user = $config['user'];

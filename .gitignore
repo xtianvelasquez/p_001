@@ -17,6 +17,11 @@ config/database.php
 p_001/config/database.php
 p_001/migrate.php
 
+# Temporary scratch and test files
+scratch_*.php
+*.log
+cookie*.txt
+
 # Composer dependencies (if any added later)
 vendor/
 SCRIPT.md
