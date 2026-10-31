@@ -16,48 +16,78 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
   <link rel="icon" type="image/png" href="/assets/images/benhub-icon.png">
   <link rel="shortcut icon" href="/assets/images/benhub-icon.png">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?v=5.3">
-  <link rel="stylesheet" href="/assets/css/app.css?v=1.0">
+  <link rel="stylesheet" href="/assets/css/app.css?v=2.1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 <body>
-  <div class="admin-toolbar py-2 py-md-3">
-    <div class="container-lg d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-      <div class="d-flex align-items-center gap-2">
-        <a href="/admin">
-          <img src="/assets/images/benhub.png" alt="BenHub Logo" style="height: 32px; width: auto;">
-        </a>
-        <div>
-          <p class="section-kicker mb-0" style="font-size: 0.75rem;">BenHub Admin</p>
-          <h1 class="h5 fw-bold m-0"><i class="bi bi-person-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['admin_username']); ?></h1>
-        </div>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 shadow-sm sticky-top">
+    <div class="container-lg">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/admin">
+        <img src="/assets/images/benhub.png" alt="BenHub Logo" height="35" class="d-inline-block align-top">
+        <span class="badge bg-light text-secondary border px-2 py-1 rounded-pill small fw-normal">Admin</span>
+      </a>
 
-      <!-- Navigation Tabs inside header before logout button -->
-      <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 gap-md-3">
-        <ul class="nav nav-pills gap-1" id="adminTabs" role="tablist">
+      <!-- Mobile Toggler -->
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbarMenu" aria-controls="adminNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end align-items-center mt-3 mt-lg-0" id="adminNavbarMenu">
+        <!-- Navigation Tabs Styled like Main Website Links -->
+        <ul class="nav admin-nav-tabs gap-1 flex-column flex-lg-row mb-3 mb-lg-0" id="adminTabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active px-3 py-2 fw-semibold" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservationsPane" type="button" role="tab" aria-controls="reservationsPane" aria-selected="true">
+            <button class="nav-link active" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservationsPane" type="button" role="tab" aria-controls="reservationsPane" aria-selected="true">
               <i class="bi bi-calendar2-check me-1"></i> Reservations
             </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="seatings-tab" data-bs-toggle="tab" data-bs-target="#seatingsPane" type="button" role="tab" aria-controls="seatingsPane" aria-selected="false">
+            <button class="nav-link" id="seatings-tab" data-bs-toggle="tab" data-bs-target="#seatingsPane" type="button" role="tab" aria-controls="seatingsPane" aria-selected="false">
               <i class="bi bi-grid-3x3-gap-fill me-1"></i> Seating Management
             </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settingsPane" type="button" role="tab" aria-controls="settingsPane" aria-selected="false">
+            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settingsPane" type="button" role="tab" aria-controls="settingsPane" aria-selected="false">
               <i class="bi bi-sliders me-1"></i> Restaurant Settings
             </button>
           </li>
         </ul>
 
-        <button id="logoutBtn" class="btn btn-outline-danger btn-sm px-3 py-2">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
+        <div class="d-none d-lg-block vr mx-3 my-auto text-secondary opacity-25" style="height: 24px;"></div>
+
+        <!-- Person / User Profile Dropdown with Logout -->
+        <div class="dropdown position-relative">
+          <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm border" 
+                  type="button" 
+                  id="userDropdown" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false" 
+                  style="width: 40px; height: 40px;"
+                  title="Account: <?php echo htmlspecialchars($_SESSION['admin_username']); ?>">
+            <i class="bi bi-person-fill text-secondary fs-5"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2 p-2" aria-labelledby="userDropdown" style="min-width: 210px; right: 0;">
+            <li class="px-3 py-2 border-bottom mb-1">
+              <div class="text-muted" style="font-size: 0.75rem;">Signed in as</div>
+              <div class="fw-bold text-dark text-truncate">
+                <i class="bi bi-shield-lock-fill text-warning me-1"></i> <?php echo htmlspecialchars($_SESSION['admin_username']); ?>
+              </div>
+            </li>
+            <li>
+              <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="/" target="_blank">
+                <i class="bi bi-box-arrow-up-right text-muted"></i> View Main Website
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+              <button class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2" id="logoutBtn" type="button">
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
+  </nav>
 
   <main id="admin_main" class="py-5">
     <div class="container-lg">
@@ -1083,6 +1113,29 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     });
 
     document.getElementById('settings-tab').addEventListener('shown.bs.tab', loadSettings);
+
+    // ==========================================
+    // USER DROPDOWN TOGGLE
+    // ==========================================
+    document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const parent = this.closest('.dropdown');
+        const menu = parent ? parent.querySelector('.dropdown-menu') : this.nextElementSibling;
+        if (menu) {
+          const isShown = menu.classList.contains('show');
+          document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+          if (!isShown) {
+            menu.classList.add('show');
+          }
+        }
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+      }
+    });
 
     // ==========================================
     // LOGOUT

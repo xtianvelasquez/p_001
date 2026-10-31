@@ -200,6 +200,37 @@ body {
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* Admin Navigation Tabs (matches main website aesthetic) */
+.admin-nav-tabs {
+  border-bottom: none;
+}
+
+.admin-nav-tabs .nav-link {
+  color: var(--brand-muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-nav-tabs .nav-link:hover {
+  color: var(--brand);
+  background-color: var(--surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+.admin-nav-tabs .nav-link.active {
+  color: var(--accent) !important;
+  background-color: var(--accent-light) !important;
+  border-color: #fde68a !important;
+  font-weight: 700;
+}
+
 /* Legacy .content-panel alias now uses Bento aesthetics */
 .content-panel {
   background: var(--surface);
