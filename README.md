@@ -28,6 +28,24 @@
 
 ---
 
+## UI & Visual Walkthrough
+
+### Customer Experience
+| Bento Grid Homepage | Step-by-Step Table Booking |
+|:---:|:---:|
+| ![Bento Grid Homepage](docs/screenshots/homepage.jpeg) | ![Reservation Booking](docs/screenshots/reservation_booking.jpeg) |
+| **Instant Scannable Digital Pass** | **Terms, Conditions & Policies** |
+| ![Digital QR Pass](docs/screenshots/digital_pass_qr.jpeg) | ![Terms & Conditions](docs/screenshots/terms_conditions.jpeg) |
+
+### Administrator Control Center
+| Secure Admin Authentication | Reservations Lifecycle & Metrics |
+|:---:|:---:|
+| ![Admin Login](docs/screenshots/admin_login.jpeg) | ![Admin Dashboard](docs/screenshots/admin_dashboard.jpeg) |
+| **Multi-Floor Seating Management** | **Restaurant Settings & Dynamic Hours** |
+| ![Seating Management](docs/screenshots/seating_management.jpeg) | ![Restaurant Settings](docs/screenshots/settings.jpeg) |
+
+---
+
 ## Architectural Highlights
 
 This project was built to demonstrate core software engineering principles:
@@ -55,6 +73,8 @@ p_001/
 ├── core/
 │   ├── Database.php            # PDO Singleton connection manager with fallback
 │   └── Router.php              # Central RESTful Front Controller router
+├── docs/
+│   └── screenshots/            # High-resolution UI walkthrough screenshots
 ├── modules/
 │   ├── Admin/
 │   │   └── Views/              # Admin dashboard and login interfaces
