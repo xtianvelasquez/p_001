@@ -11,6 +11,8 @@ $phoneClean = preg_replace('/[^\d\+]/', '', $phoneNumber);
 
 $floorsCount = count($activeFloors);
 $floorsLabel = $floorsCount > 0 ? ($floorsCount . ' Floor' . ($floorsCount > 1 ? 's' : '')) : 'all levels';
+
+$timeSlots = $settingsModel->generateTimeSlots($siteSettings['opening_time'] ?? null, $siteSettings['closing_time'] ?? null);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,23 +84,17 @@ $floorsLabel = $floorsCount > 0 ? ($floorsCount . ' Floor' . ($floorsCount > 1 ?
                 <div class="col-md-4">
                   <label for="reserveTime" class="form-label small fw-semibold text-secondary">Time Slot *</label>
                   <select name="reserveTime" id="reserveTime" class="form-select" required>
-                    <option value="10:00 AM">10:00 AM</option>
-                    <option value="10:30 AM">10:30 AM</option>
-                    <option value="11:00 AM">11:00 AM</option>
-                    <option value="11:30 AM">11:30 AM</option>
-                    <option value="12:00 PM">12:00 NN</option>
-                    <option value="12:30 PM">12:30 PM</option>
-                    <option value="1:00 PM">1:00 PM</option>
-                    <option value="1:30 PM">1:30 PM</option>
-                    <option value="2:00 PM">2:00 PM</option>
-                    <option value="2:30 PM">2:30 PM</option>
-                    <option value="3:00 PM">3:00 PM</option>
-                    <option value="3:30 PM">3:30 PM</option>
-                    <option value="4:00 PM">4:00 PM</option>
-                    <option value="4:30 PM">4:30 PM</option>
-                    <option value="5:00 PM">5:00 PM</option>
-                    <option value="5:30 PM">5:30 PM</option>
-                    <option value="6:00 PM">6:00 PM</option>
+                    <?php if (!empty($timeSlots)): ?>
+                      <?php foreach ($timeSlots as $slot): ?>
+                        <option value="<?= htmlspecialchars($slot, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($slot, ENT_QUOTES, 'UTF-8') ?></option>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <option value="10:00 AM">10:00 AM</option>
+                      <option value="12:00 PM">12:00 PM</option>
+                      <option value="2:00 PM">2:00 PM</option>
+                      <option value="4:00 PM">4:00 PM</option>
+                      <option value="6:00 PM">6:00 PM</option>
+                    <?php endif; ?>
                   </select>
                 </div>
                 <div class="col-md-4">

@@ -36,6 +36,13 @@ class ReservationAPIController {
             }
         }
 
+        // Validate time slot is within active operating hours
+        $settingsModel = new \Modules\Reservation\Models\SettingsModel();
+        $allowedSlots = $settingsModel->generateTimeSlots();
+        if (!empty($allowedSlots) && !in_array(trim($data['reserveTime']), $allowedSlots, true)) {
+            return "The selected time slot is outside current restaurant operating hours.";
+        }
+
         if (!filter_var($data['emailAdd'], FILTER_VALIDATE_EMAIL)) {
             return "Please enter a valid email address.";
         }

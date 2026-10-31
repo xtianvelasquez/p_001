@@ -47,4 +47,31 @@ class SettingsModel {
         $stmt = $this->db->query("SELECT DISTINCT floor_name FROM restaurant_tables WHERE is_active = true ORDER BY floor_name ASC");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    public function generateTimeSlots(?string $openStr = null, ?string $closeStr = null, int $stepMinutes = 30): array {
+        if (!$openStr) {
+            $openStr = $this->getSetting('opening_time', '10:00 AM');
+        }
+        if (!$closeStr) {
+            $closeStr = $this->getSetting('closing_time', '6:00 PM');
+        }
+
+        $openTimestamp = strtotime($openStr);
+        $closeTimestamp = strtotime($closeStr);
+
+        // Fallback if parsing fails or closing is before opening
+        if (!$openTimestamp || !$closeTimestamp || $closeTimestamp <= $openTimestamp) {
+            $openTimestamp = strtotime('10:00 AM');
+            $closeTimestamp = strtotime('6:00 PM');
+        }
+
+        $slots = [];
+        $current = $openTimestamp;
+        while ($current <= $closeTimestamp) {
+            $slots[] = date('g:i A', $current);
+            $current += ($stepMinutes * 60);
+        }
+
+        return $slots;
+    }
 }

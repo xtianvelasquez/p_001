@@ -27,12 +27,17 @@ class SettingsAPIController {
         try {
             $settings = $this->model->getAllSettings();
             $floors = $this->model->getActiveFloorsSummary();
+            $timeSlots = $this->model->generateTimeSlots(
+                $settings['opening_time'] ?? null,
+                $settings['closing_time'] ?? null
+            );
 
             echo json_encode([
                 "status" => "success",
                 "data" => [
                     "settings" => $settings,
-                    "active_floors" => $floors
+                    "active_floors" => $floors,
+                    "time_slots" => $timeSlots
                 ]
             ]);
         } catch (\Exception $e) {

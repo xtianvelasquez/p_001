@@ -318,19 +318,33 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                   </div>
 
-                  <h3 class="h6 fw-bold text-dark pt-3 border-top mb-3">Operating Hours & Schedule</h3>
+                  <h3 class="h6 fw-bold text-dark pt-3 border-top mb-1">Operating Hours & Time Slot Scheduling</h3>
+                  <div class="small text-secondary mb-3">
+                    <i class="bi bi-clock-history text-warning me-1"></i> 
+                    Changing opening and closing times will automatically generate all matching 30-minute booking time slots for customers on the reservation form.
+                  </div>
                   <div class="row g-3 mb-4">
                     <div class="col-md-4">
                       <label for="setting_operating_days" class="form-label small fw-semibold">Operating Days</label>
                       <input type="text" class="form-control" id="setting_operating_days" placeholder="e.g. Monday - Saturday" maxlength="100">
                     </div>
                     <div class="col-md-4">
-                      <label for="setting_opening_time" class="form-label small fw-semibold">Opening Time</label>
+                      <label for="setting_opening_time" class="form-label small fw-semibold">Opening Time (First slot)</label>
                       <input type="text" class="form-control" id="setting_opening_time" placeholder="e.g. 10:00 AM" maxlength="20">
+                      <div class="form-text small">Standard format: e.g. 9:00 AM or 11:30 AM</div>
                     </div>
                     <div class="col-md-4">
-                      <label for="setting_closing_time" class="form-label small fw-semibold">Closing Time</label>
+                      <label for="setting_closing_time" class="form-label small fw-semibold">Closing Time (Last slot)</label>
                       <input type="text" class="form-control" id="setting_closing_time" placeholder="e.g. 6:00 PM" maxlength="20">
+                      <div class="form-text small">Standard format: e.g. 6:00 PM or 9:30 PM</div>
+                    </div>
+                    <div class="col-12">
+                      <div class="p-3 bg-light rounded-3 small">
+                        <strong>Generated Booking Slots Preview:</strong>
+                        <div id="previewTimeSlots" class="d-flex flex-wrap gap-1 mt-2">
+                          <span class="text-muted">Loading preview...</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -1003,6 +1017,15 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     // ==========================================
     const settingsForm = document.getElementById('restaurantSettingsForm');
 
+    function updateTimeSlotsPreview(slots) {
+      const container = document.getElementById('previewTimeSlots');
+      if (!slots || !slots.length) {
+        container.innerHTML = '<span class="text-danger small">No valid time slots could be generated. Check format.</span>';
+        return;
+      }
+      container.innerHTML = slots.map(s => `<span class="badge bg-white text-dark border px-2 py-1">${escapeHtml(s)}</span>`).join('');
+    }
+
     function loadSettings() {
       fetch('/api/settings')
         .then(res => res.json())
@@ -1020,6 +1043,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             document.getElementById('setting_street_address').value = s.street_address || '';
             document.getElementById('setting_city_address').value = s.city_address || '';
             document.getElementById('setting_map_url').value = s.map_url || '';
+            updateTimeSlotsPreview(res.data.time_slots);
           }
         })
         .catch(() => showFeedback('danger', 'Could not load restaurant settings.'));
@@ -1050,6 +1074,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
       .then(res => {
         if (res.status === 'success') {
           showFeedback('success', res.message);
+          loadSettings();
         } else {
           showFeedback('danger', res.message || 'Error saving settings.');
         }
